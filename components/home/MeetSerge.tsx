@@ -45,7 +45,7 @@ export default function MeetSerge() {
           {/* Copy column. Desktop: text-left of portrait, matches the
               AboutHero treatment so /about and homepage read as one voice.
               Mobile: portrait first (order-1), copy below. */}
-          <div className="order-2 md:order-1 md:col-span-7">
+          <div className="order-2 md:order-1 md:col-span-6">
             <p className="eyebrow text-graphite">{"// The owner"}</p>
             <h2
               id="meet-serge-heading"
@@ -70,19 +70,22 @@ export default function MeetSerge() {
             </Link>
           </div>
 
-          {/* Portrait column. 3:4 aspect matches the /about hero crop so
-              the build-time crop on the source file lands the same way on
-              both pages. rounded-2xl matches the design-system card radius;
-              the bottom scrim + mono caption frame the snapshot as an
-              intentional editorial portrait rather than a dropped-in photo. */}
-          <div className="order-1 md:order-2 md:col-span-5">
-            <figure className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl border border-hairline">
+          {/* Portrait column. The source asset is 3:4 (shared with the
+              /about hero). Here we frame it 7/6 with object-top, which keeps
+              the top ~64% — Serge, both cars, and the building — and clips
+              the empty pavement at the bottom. /about keeps the full 3:4
+              crop; only the homepage tightens it. rounded-2xl matches the
+              design-system card radius; the bottom scrim + mono caption
+              frame the shot as an intentional editorial portrait rather
+              than a dropped-in photo. */}
+          <div className="order-1 md:order-2 md:col-span-6">
+            <figure className="relative w-full aspect-[7/6] overflow-hidden rounded-2xl border border-hairline">
               <Image
                 src={PORTRAIT_PATH}
                 alt="Serge, founder of SP Automotive"
                 fill
-                sizes="(min-width: 768px) 40vw, 100vw"
-                className="object-cover"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover object-top"
               />
               <div
                 aria-hidden
