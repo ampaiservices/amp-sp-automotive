@@ -46,9 +46,10 @@ export default function MeetSerge() {
               AboutHero treatment so /about and homepage read as one voice.
               Mobile: portrait first (order-1), copy below. */}
           <div className="order-2 md:order-1 md:col-span-7">
+            <p className="eyebrow text-graphite">{"// The owner"}</p>
             <h2
               id="meet-serge-heading"
-              className="display-md leading-[1.05] text-bone"
+              className="mt-4 display-lg leading-[1.02] text-bone"
             >
               Same hands.
               <br />
@@ -71,9 +72,11 @@ export default function MeetSerge() {
 
           {/* Portrait column. 3:4 aspect matches the /about hero crop so
               the build-time crop on the source file lands the same way on
-              both pages. */}
+              both pages. rounded-2xl matches the design-system card radius;
+              the bottom scrim + mono caption frame the snapshot as an
+              intentional editorial portrait rather than a dropped-in photo. */}
           <div className="order-1 md:order-2 md:col-span-5">
-            <div className="relative w-full aspect-[3/4] border border-hairline overflow-hidden">
+            <figure className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl border border-hairline">
               <Image
                 src={PORTRAIT_PATH}
                 alt="Serge, founder of SP Automotive"
@@ -81,7 +84,14 @@ export default function MeetSerge() {
                 sizes="(min-width: 768px) 40vw, 100vw"
                 className="object-cover"
               />
-            </div>
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent"
+              />
+              <figcaption className="annotation absolute bottom-4 left-5 text-bone/80">
+                Serge · SP Automotive · Sarasota, FL
+              </figcaption>
+            </figure>
           </div>
         </div>
       </div>
