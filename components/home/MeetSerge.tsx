@@ -84,7 +84,7 @@ export default function MeetSerge() {
                 src={PORTRAIT_PATH}
                 alt="Serge, founder of SP Automotive"
                 fill
-                sizes="(min-width: 768px) 40vw, 100vw"
+                sizes="(min-width: 768px) 50vw, 100vw"
                 className="object-cover object-top"
               />
               <div
