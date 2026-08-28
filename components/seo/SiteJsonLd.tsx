@@ -2,9 +2,13 @@ import {
   PHONE,
   SITE_URL,
   SITE_NAME,
+  TAGLINE,
   CITY,
   REGION,
   POSTAL_CODE,
+  STREET_ADDRESS,
+  SOCIAL_LINKS,
+  OWNER_NAME,
   BY_APPOINTMENT,
   HOURS_DAYS,
   HOURS_OPEN,
@@ -12,16 +16,24 @@ import {
   GEO_LAT,
   GEO_LNG,
 } from "@/lib/site";
+import { BUSINESS_ID, WEBSITE_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
-export default function LocalBusinessJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
+// Site-wide JSON-LD graph: the one place the business and website are
+// declared. Every per-page node (Service, FAQPage, TechArticle, …)
+// references these via {"@id": BUSINESS_ID} / {"@id": WEBSITE_ID}.
+export default function SiteJsonLd() {
+  const business = {
     "@type": "AutoBodyShop",
+    "@id": BUSINESS_ID,
     name: SITE_NAME,
+    slogan: TAGLINE,
     url: SITE_URL,
     telephone: PHONE,
+    founder: { "@type": "Person", name: OWNER_NAME },
     address: {
       "@type": "PostalAddress",
+      ...(STREET_ADDRESS && { streetAddress: STREET_ADDRESS }),
       addressLocality: CITY,
       addressRegion: REGION,
       postalCode: POSTAL_CODE,
@@ -34,6 +46,7 @@ export default function LocalBusinessJsonLd() {
     },
     areaServed: { "@type": "City", name: CITY },
     image: `${SITE_URL}/logos/sp-mark.png`,
+    ...(SOCIAL_LINKS.length > 0 && { sameAs: SOCIAL_LINKS }),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -50,5 +63,16 @@ export default function LocalBusinessJsonLd() {
       },
     ],
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+
+  const webSite = {
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    url: SITE_URL,
+    name: SITE_NAME,
+    publisher: { "@id": BUSINESS_ID },
+  };
+
+  return (
+    <JsonLd data={{ "@context": "https://schema.org", "@graph": [business, webSite] }} />
+  );
 }

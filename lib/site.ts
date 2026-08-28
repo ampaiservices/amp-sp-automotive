@@ -73,7 +73,20 @@ export const HOURS_DAYS = [
 export const HOURS_OPEN = "09:00";
 export const HOURS_CLOSE = "17:00";
 
-// City-level geo (Sarasota center). Update if/when a precise location is
-// published. Used for LocalBusiness JSON-LD geo coordinates.
+// City-level geo (Sarasota center). Update together with STREET_ADDRESS
+// once the shop's precise location is published. Used for LocalBusiness
+// JSON-LD geo coordinates.
 export const GEO_LAT = 27.3364;
 export const GEO_LNG = -82.5307;
+
+export const OWNER_NAME = "Serge";
+
+// Street address — pending confirmation from the client. While empty,
+// JSON-LD and llms.txt omit the streetAddress line entirely.
+// TODO(serge): confirm exact street address, then also update GEO_LAT/LNG.
+export const STREET_ADDRESS: string = "";
+
+// Social profiles. Empty string suppresses sameAs emission in JSON-LD.
+// TODO(serge): confirm Instagram URL, e.g. https://www.instagram.com/<handle>
+export const INSTAGRAM_URL: string = "";
+export const SOCIAL_LINKS = [INSTAGRAM_URL].filter(Boolean);

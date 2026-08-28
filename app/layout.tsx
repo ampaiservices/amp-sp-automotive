@@ -3,7 +3,7 @@ import { Metadata, Viewport } from "next";
 import Navigation from "@/components/nav/Navigation";
 import Footer from "@/components/footer/Footer";
 import Analytics from "@/components/analytics/Analytics";
-import LocalBusinessJsonLd from "@/components/seo/LocalBusinessJsonLd";
+import SiteJsonLd from "@/components/seo/SiteJsonLd";
 import SmoothScroll from "@/components/effects/SmoothScroll";
 import StickyContactBar from "@/components/cta/StickyContactBar";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${anton.variable} ${hanken.variable}`}>
       <head>
-        <LocalBusinessJsonLd />
+        <SiteJsonLd />
         {/* Preload the poster only — it's the LCP candidate. The video element streams on its own; explicit video preload was tanking LCP at 9.8MB. */}
         <link rel="preload" as="image" href="/hero-clips/cinematic-poster.jpg" fetchPriority="high" />
       </head>
