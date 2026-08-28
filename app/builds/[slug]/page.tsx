@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import BuildPage from "@/components/builds/BuildPage";
 import { BUILDS, getBuild } from "@/components/builds/builds-data";
 import { SITE_URL } from "@/lib/site";
+import { WEBSITE_ID, breadcrumbList } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
 type Params = { slug: string };
 
@@ -38,5 +40,31 @@ export default async function Page({
   const { slug } = await params;
   const build = getBuild(slug);
   if (!build) notFound();
-  return <BuildPage build={build} />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        name: build.metaTitle,
+        description: build.metaDescription,
+        url: `${SITE_URL}/builds/${slug}`,
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          contentUrl: `${SITE_URL}${build.kitImage}`,
+        },
+        isPartOf: { "@id": WEBSITE_ID },
+      },
+      breadcrumbList([
+        { name: "Home", url: `${SITE_URL}/` },
+        { name: "Builds", url: `${SITE_URL}/builds` },
+        { name: build.metaTitle, url: `${SITE_URL}/builds/${slug}` },
+      ]),
+    ],
+  };
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <BuildPage build={build} />
+    </>
+  );
 }

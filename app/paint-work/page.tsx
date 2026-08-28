@@ -7,7 +7,9 @@ import SplitText from "@/components/effects/SplitText";
 import RevealSection from "@/components/ui/RevealSection";
 import ColorSwatchLibrary from "@/components/paint-work/ColorSwatchLibrary";
 import { COLORS } from "@/components/paint-work/colors-data";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_URL, SITE_NAME, CITY } from "@/lib/site";
+import { BUSINESS_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
 const TITLE = "Paint work — booth-mixed, measured, documented";
 const DESCRIPTION =
@@ -53,16 +55,12 @@ function ServiceJsonLd() {
     "@type": "Service",
     name: "Exotic paint refinish and color match",
     description: DESCRIPTION,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@id": BUSINESS_ID },
     serviceType: "Automotive paint refinishing and color matching",
-    areaServed: "Sarasota, FL",
+    areaServed: { "@type": "City", name: CITY },
+    url: `${SITE_URL}/paint-work`,
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <JsonLd data={data} />;
 }
 
 export default function PaintWorkPage() {

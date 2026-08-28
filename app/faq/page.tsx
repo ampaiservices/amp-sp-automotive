@@ -6,6 +6,8 @@ import BackgroundPaths from "@/components/effects/BackgroundPaths";
 import FAQExplorer from "@/components/faq/FAQExplorer";
 import { PUBLISHED_FAQS } from "@/lib/faq-data";
 import { SITE_URL } from "@/lib/site";
+import { BUSINESS_ID, WEBSITE_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Questions owners ask",
@@ -18,6 +20,9 @@ function FAQJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${SITE_URL}/faq#faq`,
+    isPartOf: { "@id": WEBSITE_ID },
+    publisher: { "@id": BUSINESS_ID },
     mainEntity: PUBLISHED_FAQS.map((f) => ({
       "@type": "Question",
       name: f.question,
@@ -27,12 +32,7 @@ function FAQJsonLd() {
       },
     })),
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <JsonLd data={data} />;
 }
 
 export default function FAQPage() {

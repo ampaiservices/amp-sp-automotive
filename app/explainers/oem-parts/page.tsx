@@ -3,7 +3,9 @@ import Link from "next/link";
 import PhoneCTA from "@/components/ui/PhoneCTA";
 import SmsCTA from "@/components/ui/SmsCTA";
 import FinalCTA from "@/components/cta/FinalCTA";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
+import { BUSINESS_ID, WEBSITE_ID, breadcrumbList } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
 const TITLE = "OEM parts — and why aftermarket fails on exotics";
 const DESCRIPTION =
@@ -18,21 +20,25 @@ export const metadata: Metadata = {
 function TechArticleJsonLd() {
   const data = {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
-    headline: TITLE,
-    description: DESCRIPTION,
-    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-    mainEntityOfPage: `${SITE_URL}/explainers/oem-parts`,
-    about: "Original equipment manufacturer parts policy for exotic collision repair",
-    proficiencyLevel: "Expert",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        headline: TITLE,
+        description: DESCRIPTION,
+        author: { "@id": BUSINESS_ID },
+        publisher: { "@id": BUSINESS_ID },
+        isPartOf: { "@id": WEBSITE_ID },
+        mainEntityOfPage: `${SITE_URL}/explainers/oem-parts`,
+        about: "Original equipment manufacturer parts policy for exotic collision repair",
+        proficiencyLevel: "Expert",
+      },
+      breadcrumbList([
+        { name: "Home", url: `${SITE_URL}/` },
+        { name: TITLE, url: `${SITE_URL}/explainers/oem-parts` },
+      ]),
+    ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <JsonLd data={data} />;
 }
 
 export default function OemPartsExplainerPage() {
