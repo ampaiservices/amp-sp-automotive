@@ -122,6 +122,38 @@ export const FAQS: FAQ[] = [
     published: true,
   },
   {
+    id: "already-at-shop",
+    question: "What if my car is already at another shop or a tow yard?",
+    answer:
+      "We coordinate the transport ourselves at no extra cost on accepted jobs. If it's still in a yard, we'll pull the vehicle and bring it straight into indoor storage.",
+    category: "logistics",
+    published: true,
+  },
+  {
+    id: "service-area",
+    question: "Do you work outside the Sarasota area?",
+    answer:
+      "Sarasota and within an hour's drive. The mobile estimate model means we come to you — but only inside that radius. Outside it, we can take a look from photos and coordinate transport into the shop.",
+    category: "logistics",
+    published: true,
+  },
+  {
+    id: "paid-in-full",
+    question: "What does 'paid in full' actually mean for my settlement?",
+    answer:
+      "When the cost to repair crosses the carrier's total-loss threshold (commonly around 70% of ACV), they owe you the value of the car — not a patched version of it. We document the damage so the file clears that threshold cleanly.",
+    category: "money",
+    published: true,
+  },
+  {
+    id: "factory-original",
+    question: "Will the repair look factory-original?",
+    answer:
+      "Yes. Every panel, paint pass, and reassembly is on Serge personally — no subcontractors. We refinish to OEM specifications and color-match in a controlled booth.",
+    category: "repair",
+    published: true,
+  },
+  {
     id: "models",
     question: "What models do you work on?",
     answer:
@@ -132,6 +164,21 @@ export const FAQS: FAQ[] = [
 ];
 
 export const PUBLISHED_FAQS = FAQS.filter((f) => f.published);
+
+// Homepage FAQ teaser — a curated subset of the published entries, in display
+// order. HomeFAQ renders these; /faq remains the canonical home (and the only
+// page that emits FAQPage JSON-LD — duplicating it on "/" reads as schema spam).
+const HOME_FAQ_IDS = [
+  "insurance-routing",
+  "timeline",
+  "already-at-shop",
+  "service-area",
+  "paid-in-full",
+  "factory-original",
+] as const;
+export const HOME_FAQS = HOME_FAQ_IDS.map(
+  (id) => PUBLISHED_FAQS.find((f) => f.id === id),
+).filter((f): f is FAQ => f !== undefined);
 
 // Cluster display labels — single source of truth so FAQExplorer's pills and
 // cluster headings stay aligned. Order here drives the visual order.
