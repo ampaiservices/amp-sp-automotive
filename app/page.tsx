@@ -39,13 +39,22 @@ import FinalCTA from "@/components/cta/FinalCTA";
 // `globals.css`) carries the background for sections without their own
 // surface treatment.
 
-// Page-level metadata is partial — title/description/OG all come from the
-// root layout. We only need to assert the canonical URL here so search
-// engines see an explicit <link rel="canonical"> on the homepage. Trailing
-// slash matches the sitemap.xml <loc> form so crawlers don't see two
-// distinct canonical signatures.
+// Canonical trailing slash matches the sitemap.xml <loc> form so crawlers
+// don't see two distinct canonical signatures. Title is absolute — the
+// layout template would append the site name a second time.
+const HOME_TITLE = "Exotic Collision Repair in Sarasota, FL — SP Automotive";
+const HOME_DESCRIPTION =
+  "Factory-correct collision repair for Lamborghini, McLaren, Ferrari, Porsche, and Audi R8 in Sarasota. OEM parts, in-house paint match and ADAS recalibration, insurance handled end-to-end. Call (941) 599-4025.";
+
 export const metadata: Metadata = {
+  title: { absolute: HOME_TITLE },
+  description: HOME_DESCRIPTION,
   alternates: { canonical: `${SITE_URL}/` },
+  openGraph: {
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    url: `${SITE_URL}/`,
+  },
 };
 
 export default function Home() {

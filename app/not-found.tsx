@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import PhoneCTA from "@/components/ui/PhoneCTA";
 
@@ -7,9 +8,10 @@ import PhoneCTA from "@/components/ui/PhoneCTA";
 // for owner's-manual register, and gives the visitor a known-good third
 // destination (All builds) so Home isn't the only out.
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Page not found",
   description: "This page came home before it was finished.",
+  robots: { index: false, follow: false },
 };
 
 export default function NotFound() {
