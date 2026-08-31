@@ -48,6 +48,10 @@ ${BRANDS.map((b) => `- [${b.name} collision repair](${SITE_URL}/${b.slug})`).joi
 ## Work
 
 - [Builds](${SITE_URL}/builds): completed repairs and body-kit builds with photos
+
+## Details
+
+- [Full business details](${SITE_URL}/llms-full.txt): service area, complete FAQ, and everything above in long form
 `;
 
   return new Response(body, {

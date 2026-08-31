@@ -4,7 +4,7 @@ import PhoneCTA from "@/components/ui/PhoneCTA";
 import SmsCTA from "@/components/ui/SmsCTA";
 import FinalCTA from "@/components/cta/FinalCTA";
 import { SITE_URL } from "@/lib/site";
-import { BUSINESS_ID, WEBSITE_ID, breadcrumbList } from "@/lib/seo";
+import { BUSINESS_ID, WEBSITE_ID, breadcrumbList, speakablePage } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 
 const TITLE = "OEM parts — and why aftermarket fails on exotics";
@@ -36,6 +36,7 @@ function TechArticleJsonLd() {
         { name: "Home", url: `${SITE_URL}/` },
         { name: TITLE, url: `${SITE_URL}/explainers/oem-parts` },
       ]),
+      speakablePage("/explainers/oem-parts", TITLE),
     ],
   };
   return <JsonLd data={data} />;
@@ -48,8 +49,8 @@ export default function OemPartsExplainerPage() {
       <article className="bg-ink px-6 md:px-10 pt-40 pb-24 border-b border-divider">
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow">Explainer · 03</p>
-          <h1 className="mt-4 display-lg">{TITLE}</h1>
-          <p className="editorial mt-8 max-w-2xl">{DESCRIPTION}</p>
+          <h1 className="speakable-title mt-4 display-lg">{TITLE}</h1>
+          <p className="speakable-summary editorial mt-8 max-w-2xl">{DESCRIPTION}</p>
         </div>
       </article>
 

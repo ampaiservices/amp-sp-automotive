@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site";
+import { speakablePage } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import HeroVideo from "@/components/hero/HeroVideo";
 import TrustStrip from "@/components/home/TrustStrip";
 import MeetSerge from "@/components/home/MeetSerge";
@@ -60,6 +62,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <JsonLd
+        data={{ "@context": "https://schema.org", ...speakablePage("/", HOME_TITLE) }}
+      />
       <HeroVideo />
       <TrustStrip />
       <MeetSerge />

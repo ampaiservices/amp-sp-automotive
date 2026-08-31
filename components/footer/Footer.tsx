@@ -68,6 +68,15 @@ export default function Footer() {
           <Link href="/explainers/paint-match" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Paint match</Link>
           <Link href="/explainers/oem-parts" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">OEM parts</Link>
         </nav>
+
+        {/* Legal row — spans the grid, quiet register below the columns. */}
+        <div className="md:col-span-3 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-hairline pt-6 text-xs text-graphite">
+          <span>&copy; {new Date().getFullYear()} SP Automotive Collision &amp; Repair</span>
+          <span aria-hidden>·</span>
+          <Link href="/privacy" className="link-underline hover:text-bone transition-colors">Privacy</Link>
+          <span aria-hidden>·</span>
+          <Link href="/terms" className="link-underline hover:text-bone transition-colors">Terms</Link>
+        </div>
       </Surface>
     </footer>
   );

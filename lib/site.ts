@@ -81,6 +81,21 @@ export const GEO_LNG = -82.5307;
 
 export const OWNER_NAME = "Serge";
 
+// Service area — Sarasota and within an hour's drive (matches the FAQ
+// claim). Drives areaServed in JSON-LD and the llms.txt service-area line.
+export const SERVICE_AREAS = [
+  "Sarasota",
+  "Siesta Key",
+  "Longboat Key",
+  "Lakewood Ranch",
+  "Bradenton",
+  "Osprey",
+  "Nokomis",
+  "Venice",
+  "North Port",
+  "Palmetto",
+] as const;
+
 // Street address — pending confirmation from the client. While empty,
 // JSON-LD and llms.txt omit the streetAddress line entirely.
 // TODO(serge): confirm exact street address, then also update GEO_LAT/LNG.

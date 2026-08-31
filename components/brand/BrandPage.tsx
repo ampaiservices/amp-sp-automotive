@@ -6,7 +6,7 @@ import FinalCTA from "@/components/cta/FinalCTA";
 import BrandPageView from "@/components/analytics/BrandPageView";
 import { PUBLISHED_TESTIMONIALS } from "@/components/testimonials/testimonials-data";
 import { SITE_URL, CITY } from "@/lib/site";
-import { BUSINESS_ID, breadcrumbList } from "@/lib/seo";
+import { BUSINESS_ID, breadcrumbList, speakablePage } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import type { Brand } from "./brands-data";
 
@@ -34,6 +34,7 @@ export default function BrandPage({ brand }: { brand: Brand }) {
         { name: "Home", url: `${SITE_URL}/` },
         { name: `${brand.name} Collision Repair`, url: `${SITE_URL}/${brand.slug}` },
       ]),
+      speakablePage(`/${brand.slug}`, `${brand.name} Collision Repair`),
     ],
   };
 

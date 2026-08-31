@@ -101,7 +101,7 @@ export default function HeroVideo() {
         framePattern="/hero-clips/frames/frame-{n}.jpg"
         fallbackPoster="/hero-clips/cinematic-poster.jpg"
       />
-      <h1 className="sr-only">
+      <h1 className="speakable-title sr-only">
         Totaled. Paid in Full. — SP Automotive exotic collision repair in Sarasota, FL.
       </h1>
 
@@ -220,7 +220,7 @@ export default function HeroVideo() {
           variant="glass"
           className="rounded-3xl p-8 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
         >
-          <p className="lead text-bone/95">{HERO_LEAD}</p>
+          <p className="speakable-summary lead text-bone/95">{HERO_LEAD}</p>
           <div
             className={`mt-6 flex flex-wrap gap-3 transition-opacity duration-300 ease-out ${
               ctasReady ? "opacity-100" : "opacity-0"

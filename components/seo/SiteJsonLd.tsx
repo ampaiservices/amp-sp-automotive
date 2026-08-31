@@ -6,6 +6,7 @@ import {
   CITY,
   REGION,
   POSTAL_CODE,
+  SERVICE_AREAS,
   STREET_ADDRESS,
   SOCIAL_LINKS,
   OWNER_NAME,
@@ -44,7 +45,11 @@ export default function SiteJsonLd() {
       latitude: GEO_LAT,
       longitude: GEO_LNG,
     },
-    areaServed: { "@type": "City", name: CITY },
+    areaServed: SERVICE_AREAS.map((name) => ({
+      "@type": "City",
+      name,
+      containedInPlace: { "@type": "State", name: "Florida" },
+    })),
     image: `${SITE_URL}/logos/sp-mark.png`,
     ...(SOCIAL_LINKS.length > 0 && { sameAs: SOCIAL_LINKS }),
     openingHoursSpecification: [
@@ -69,6 +74,7 @@ export default function SiteJsonLd() {
     "@id": WEBSITE_ID,
     url: SITE_URL,
     name: SITE_NAME,
+    inLanguage: "en-US",
     publisher: { "@id": BUSINESS_ID },
   };
 

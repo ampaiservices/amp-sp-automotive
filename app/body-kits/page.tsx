@@ -9,7 +9,7 @@ import RevealSection from "@/components/ui/RevealSection";
 import CarOrbit from "@/components/body-kits/CarOrbit";
 import { BUILDS } from "@/components/builds/builds-data";
 import { SITE_URL, SITE_NAME, CITY } from "@/lib/site";
-import { BUSINESS_ID } from "@/lib/seo";
+import { BUSINESS_ID, speakablePage } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 
 const TITLE = "Body kits — mounted, painted, finished to spec";
@@ -96,7 +96,6 @@ const MARQUES: Array<{
 
 function ServiceJsonLd() {
   const data = {
-    "@context": "https://schema.org",
     "@type": "Service",
     name: "Body kit installation",
     description: DESCRIPTION,
@@ -105,7 +104,14 @@ function ServiceJsonLd() {
     areaServed: { "@type": "City", name: CITY },
     url: `${SITE_URL}/body-kits`,
   };
-  return <JsonLd data={data} />;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [data, speakablePage("/body-kits", TITLE)],
+      }}
+    />
+  );
 }
 
 export default function BodyKitsPage() {
@@ -135,14 +141,14 @@ export default function BodyKitsPage() {
           <p className="eyebrow reveal-up">{"// Aftermarket aero"}</p>
           <SplitText
             as="h1"
-            className="mt-4 display-lg text-bone"
+            className="speakable-title mt-4 display-lg text-bone"
             reveal="mount"
             mountDelayMs={200}
             staggerMs={28}
           >
             Body kits.
           </SplitText>
-          <p className="editorial mt-8 max-w-2xl text-bone/85 reveal-up">
+          <p className="speakable-summary editorial mt-8 max-w-2xl text-bone/85 reveal-up">
             Forged carbon. Real install time. We seat the panels with no clearance
             compromise, blend the paint to factory-match depth, and verify badge
             fitment and wheel-arch geometry before the car leaves the booth. Every
