@@ -1,9 +1,3 @@
-// Typed event helpers. All events flow through GTM's dataLayer (loaded by
-// the GoogleTagManager component in `components/analytics/Analytics.tsx`)
-// and reach GA4 via a tag inside the GTM container. If GTM hasn't been
-// configured (env vars missing), `sendGTMEvent` from @next/third-parties
-// no-ops gracefully.
-
 import { sendGTMEvent } from "@next/third-parties/google";
 
 type EventMap = {
@@ -25,5 +19,25 @@ export function track<K extends keyof EventMap>(
   params?: EventMap[K],
 ) {
   if (typeof window === "undefined") return;
-  sendGTMEvent({ event, ...(params ?? {}) });
+  try {
+    // Keep existing GTM event names and container mappings intact. Only one
+    // transport runs, even when both IDs are configured.
+    if (process.env.NEXT_PUBLIC_GTM_ID) {
+      sendGTMEvent({ event, ...(params ?? {}) });
+    } else if (/^G-[A-Z0-9]+$/.test(process.env.NEXT_PUBLIC_GA4_ID ?? "")) {
+      const successful = event === "contact_submit_success" || event === "estimate_submit_success";
+      const browser = window as Window & { dataLayer?: unknown[] };
+      browser.dataLayer ??= [];
+      // Queue even before Google's initialization script has run.
+      const queue = function (...args: unknown[]) {
+        void args;
+        // eslint-disable-next-line prefer-rest-params -- Google consumes Arguments objects.
+        browser.dataLayer!.push(arguments);
+      };
+      queue("event", successful ? "generate_lead" : event,
+        successful ? { form_name: event === "contact_submit_success" ? "contact" : "estimate" } : (params ?? {}));
+    }
+  } catch {
+    // Tracking must never change the outcome of a successfully delivered lead.
+  }
 }
