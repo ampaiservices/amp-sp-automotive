@@ -9,6 +9,8 @@ import {
   HOURS_DAYS,
   BY_APPOINTMENT,
   SITE_URL,
+  PHONE,
+  PHONE_HREF,
 } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -19,6 +21,9 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
+  const formReady = Boolean(
+    process.env.RESEND_API_KEY && process.env.CONTACT_FROM_EMAIL && process.env.CONTACT_RECIPIENT_EMAIL,
+  );
   return (
     <section className="bg-ink px-6 md:px-10 py-32 pt-40">
       <div className="max-w-6xl mx-auto">
@@ -34,7 +39,12 @@ export default function ContactPage() {
             shop info card on the right (1 col). Stacks on mobile. */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
-            <ContactForm />
+            {formReady ? <ContactForm /> : (
+              <p className="text-bone leading-relaxed">
+                For an estimate, call <a href={PHONE_HREF} className="underline">{PHONE}</a> or use
+                the text button above to send photos of the damage. Include your name and vehicle.
+              </p>
+            )}
           </div>
           <aside className="md:col-span-1">
             <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 md:p-8 md:sticky md:top-32">
