@@ -38,6 +38,9 @@ export default function TrustStrip() {
       aria-label="How to reach us"
       className="trust-strip relative w-full bg-paper border-y border-ink/15 px-6 py-8 md:px-10 md:py-10"
     >
+      {/* sr-only heading keeps the homepage outline intact — this strip is
+          the only section without a visible headline. */}
+      <h2 className="sr-only">How to reach us</h2>
       <div className="trust-strip__row mx-auto max-w-6xl">
         <p className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-2 text-ink/80 text-sm md:text-base">
           <span className="inline-flex items-center gap-1.5 text-ink">

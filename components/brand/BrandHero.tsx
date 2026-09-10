@@ -8,8 +8,8 @@ export default function BrandHero({ brand }: { brand: Brand }) {
     <section className="relative bg-ink pt-32 md:pt-44 pb-20 md:pb-28 px-6 md:px-10">
       <div className="max-w-6xl mx-auto">
         <p className="eyebrow">{brand.eyebrow}</p>
-        <h1 className="mt-5 display-lg">{brand.headline}</h1>
-        <p className="mt-8 max-w-3xl lead">{brand.intro}</p>
+        <h1 className="speakable-title mt-5 display-lg">{brand.headline}</h1>
+        <p className="speakable-summary mt-8 max-w-3xl lead">{brand.intro}</p>
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <PhoneCTA size="lg" location="brand-hero" />
           <SmsCTA location="brand-hero" />

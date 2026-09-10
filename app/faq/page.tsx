@@ -6,6 +6,8 @@ import BackgroundPaths from "@/components/effects/BackgroundPaths";
 import FAQExplorer from "@/components/faq/FAQExplorer";
 import { PUBLISHED_FAQS } from "@/lib/faq-data";
 import { SITE_URL } from "@/lib/site";
+import { BUSINESS_ID, WEBSITE_ID, speakablePage } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Questions owners ask",
@@ -17,22 +19,25 @@ export const metadata: Metadata = {
 function FAQJsonLd() {
   const data = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: PUBLISHED_FAQS.map((f) => ({
-      "@type": "Question",
-      name: f.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: f.answer,
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}/faq#faq`,
+        isPartOf: { "@id": WEBSITE_ID },
+        publisher: { "@id": BUSINESS_ID },
+        mainEntity: PUBLISHED_FAQS.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: f.answer,
+          },
+        })),
       },
-    })),
+      speakablePage("/faq", "Questions owners ask"),
+    ],
   };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <JsonLd data={data} />;
 }
 
 export default function FAQPage() {
@@ -66,8 +71,8 @@ export default function FAQPage() {
       <section className="px-6 md:px-10 pt-40 pb-24">
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow">Questions owners ask</p>
-          <h1 className="mt-4 display-lg">Straight answers.</h1>
-          <p className="editorial mt-8 max-w-2xl">
+          <h1 className="speakable-title mt-4 display-lg">Straight answers.</h1>
+          <p className="speakable-summary editorial mt-8 max-w-2xl">
             Crashing an exotic raises questions a regular body shop will not answer. Here are the
             ones we hear most. If yours is not below, call.
           </p>

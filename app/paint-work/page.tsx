@@ -7,7 +7,9 @@ import SplitText from "@/components/effects/SplitText";
 import RevealSection from "@/components/ui/RevealSection";
 import ColorSwatchLibrary from "@/components/paint-work/ColorSwatchLibrary";
 import { COLORS } from "@/components/paint-work/colors-data";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_URL, SITE_NAME, CITY } from "@/lib/site";
+import { BUSINESS_ID, speakablePage } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 
 const TITLE = "Paint work — booth-mixed, measured, documented";
 const DESCRIPTION =
@@ -49,18 +51,20 @@ const COAT_STACK = [
 
 function ServiceJsonLd() {
   const data = {
-    "@context": "https://schema.org",
     "@type": "Service",
     name: "Exotic paint refinish and color match",
     description: DESCRIPTION,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@id": BUSINESS_ID },
     serviceType: "Automotive paint refinishing and color matching",
-    areaServed: "Sarasota, FL",
+    areaServed: { "@type": "City", name: CITY },
+    url: `${SITE_URL}/paint-work`,
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [data, speakablePage("/paint-work", TITLE)],
+      }}
     />
   );
 }
@@ -107,14 +111,14 @@ export default function PaintWorkPage() {
               <p className="eyebrow reveal-up">{"// Refinish work"}</p>
               <SplitText
                 as="h1"
-                className="mt-4 display-lg text-bone"
+                className="speakable-title mt-4 display-lg text-bone"
                 reveal="mount"
                 mountDelayMs={200}
                 staggerMs={28}
               >
                 Color, matched.
               </SplitText>
-              <p className="editorial mt-8 max-w-2xl text-bone/85 reveal-up">
+              <p className="speakable-summary editorial mt-8 max-w-2xl text-bone/85 reveal-up">
                 Booth-mixed. Variant-card tested on a hidden panel from the car
                 itself. Layered to factory film depth with a dry-film gauge
                 between coats. Every measurement goes on the repair record. If

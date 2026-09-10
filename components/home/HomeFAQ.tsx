@@ -1,7 +1,9 @@
 "use client";
 import { useRef } from "react";
+import Link from "next/link";
 import SplitText from "@/components/effects/SplitText";
 import SmsCTA from "@/components/ui/SmsCTA";
+import { HOME_FAQS } from "@/lib/faq-data";
 
 // Inline FAQ between the AboutStrip ("The signature") and the final CTA.
 // Pure typography on the ink ground — no glass, no video. The page has had
@@ -12,33 +14,6 @@ import SmsCTA from "@/components/ui/SmsCTA";
 // replacement (display: list-item is suppressed) and CSS rotates it when
 // the parent is open. One row open at a time is enforced via an
 // onClick handler that closes siblings; we don't fight the DOM here.
-
-const QUESTIONS: { q: string; a: string }[] = [
-  {
-    q: "Do you work with my insurance carrier?",
-    a: "Yes — we work with every major carrier and most regional ones. We document, supplement, and negotiate the file end-to-end. You don't talk to the adjuster; we do.",
-  },
-  {
-    q: "How long does the whole process take?",
-    a: "One to two days from your first call to a written estimate on your driveway. Repair timelines depend on parts availability and damage scope — usually two to six weeks for an exotic. We give you a real schedule, not a placeholder.",
-  },
-  {
-    q: "What if my car is already at another shop or a tow yard?",
-    a: "We coordinate the transport ourselves at no extra cost on accepted jobs. If it's still in a yard, we'll pull the vehicle and bring it straight into indoor storage.",
-  },
-  {
-    q: "Do you work outside the Sarasota area?",
-    a: "Sarasota and within an hour's drive. The mobile estimate model means we come to you — but only inside that radius. Outside it, we can take a look from photos and coordinate transport into the shop.",
-  },
-  {
-    q: "What does 'paid in full' actually mean for my settlement?",
-    a: "When the cost to repair crosses the carrier's total-loss threshold (commonly around 70% of ACV), they owe you the value of the car — not a patched version of it. We document the damage so the file clears that threshold cleanly.",
-  },
-  {
-    q: "Will the repair look factory-original?",
-    a: "Yes. Every panel, paint pass, and reassembly is on Serge personally — no subcontractors. We refinish to OEM specifications and color-match in a controlled booth.",
-  },
-];
 
 export default function HomeFAQ() {
   // Track the open row so we can collapse siblings when a new one opens.
@@ -92,7 +67,7 @@ export default function HomeFAQ() {
         ref={wrapperRef}
         className="home-faq mx-auto mt-16 max-w-3xl md:mt-20 divide-y divide-bone/10 border-y border-bone/10"
       >
-        {QUESTIONS.map((item, i) => (
+        {HOME_FAQS.map((item, i) => (
           <details
             key={i}
             onToggle={handleToggle}
@@ -105,7 +80,7 @@ export default function HomeFAQ() {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="flex-1 text-bone text-lg md:text-xl leading-snug">
-                {item.q}
+                {item.question}
               </span>
               <span
                 aria-hidden
@@ -115,7 +90,7 @@ export default function HomeFAQ() {
               </span>
             </summary>
             <div className="mt-5 pl-10 pr-2 md:pl-12 md:pr-16 text-bone/80 max-w-[60ch]">
-              {item.a}
+              {item.answer}
             </div>
           </details>
         ))}
@@ -125,6 +100,12 @@ export default function HomeFAQ() {
       <div className="mx-auto mt-12 max-w-3xl flex flex-wrap items-center gap-6">
         <p className="text-bone/80">More questions? Text us a photo —</p>
         <SmsCTA location="home-faq" />
+        <Link
+          href="/faq"
+          className="text-bone underline underline-offset-4 decoration-bone/40 hover:decoration-bone transition-colors"
+        >
+          All questions
+        </Link>
       </div>
 
       <style jsx>{`
