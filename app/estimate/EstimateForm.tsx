@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import LeadSourceField from "@/components/forms/LeadSourceField";
 import { upload } from "@vercel/blob/client";
 import Button from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
@@ -25,6 +26,8 @@ export default function EstimateForm() {
   const [phone, setPhone] = useState("");
   const [vehicle, setVehicle] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [source, setSource] = useState("");
+  const [sourceDetail, setSourceDetail] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
@@ -108,7 +111,7 @@ export default function EstimateForm() {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, vehicle, photoUrls }),
+        body: JSON.stringify({ name, phone, vehicle, photoUrls, source, sourceDetail }),
       });
 
       if (!res.ok) {
@@ -202,6 +205,14 @@ export default function EstimateForm() {
           <p id="vehicle-error" className="mt-2 text-xs text-ignite">{fieldErrors.vehicle}</p>
         )}
       </div>
+
+      <LeadSourceField
+        value={source}
+        onChange={(s, d) => { setSource(s); setSourceDetail(d); }}
+        disabled={inFlight}
+        labelClassName={labelCls}
+        inputClassName={inputCls}
+      />
 
       <div>
         <label htmlFor="files" className={labelCls}>

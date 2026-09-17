@@ -1,5 +1,6 @@
 import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
+import { isLeadSource } from "@/lib/lead-source";
 import { sendContactEmail, type ContactLead } from "@/lib/email";
 import { appendLeadToSheet } from "@/lib/sheets";
 
@@ -79,7 +80,7 @@ function parseLead(input: unknown): ContactLead | null {
     .filter((u) => u.startsWith("https://"))
     .slice(0, MAX_PHOTOS);
 
-  return { name, phone, email, vehicle, description, photoUrls };
+  return { name, phone, email, vehicle, description, photoUrls, source: parseSource(o) };
 }
 
 function trimString(v: unknown, max: number): string {
@@ -90,4 +91,12 @@ function trimString(v: unknown, max: number): string {
 
 function isLikelyEmail(s: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
+
+// Allowlisted "How did you find us" value plus an optional detected AI
+// assistant name (letters only) so "ChatGPT" reaches the email and sheet.
+function parseSource(o: Record<string, unknown>): string {
+  if (!isLeadSource(o.source)) return "";
+  const detail = typeof o.sourceDetail === "string" ? o.sourceDetail.trim() : "";
+  return /^[A-Za-z ]{1,20}$/.test(detail) ? `${o.source} (${detail})` : o.source;
 }

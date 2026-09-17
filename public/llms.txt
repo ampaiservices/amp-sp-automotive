@@ -1,12 +1,34 @@
 # SP Automotive Collision & Repair
 
-> Collision repair and restoration in Sarasota, Florida.
+> Owner-operated exotic and luxury collision repair in Sarasota, Florida. Serge does the work himself: OEM repair procedures, factory paint match in a controlled booth, ADAS recalibration on the manufacturer's diagnostic platform. By appointment. Not affiliated with the SP Automotive in San Diego, California.
 
-Phone: (941) 599-4025. Contact Serge by phone or text photos of vehicle damage.
+Phone: (941) 599-4025. Call, or text photos of the damage for a callback.
+Hours: Monday to Saturday, 9am to 5pm, by appointment.
+Service area: Sarasota, FL and surrounding areas within about an hour's drive. Mobile estimates available.
 
-## Website
-- [Home](https://www.spmotorworks.com/)
-- [About](https://www.spmotorworks.com/about)
+## Brands repaired
+- [Lamborghini collision repair](https://www.spmotorworks.com/lamborghini-collision-repair-sarasota): Aventador, Huracan, Urus, Revuelto. Tri-coat paint, carbon-fiber repair.
+- [McLaren collision repair](https://www.spmotorworks.com/mclaren-collision-repair-sarasota): 570S, 720S, 765LT, Artura, GT. Aluminum crash structures, carbon tub assessment.
+- [Audi R8 collision repair](https://www.spmotorworks.com/audi-r8-collision-repair-sarasota): both generations. Audi Space Frame section replacement.
+- [Ferrari collision repair](https://www.spmotorworks.com/ferrari-collision-repair-sarasota): 488, F8, 296, SF90, Roma, 812, Purosangue. Aluminum chassis, Rosso paint match, hybrid HV procedure.
+- [Porsche collision repair](https://www.spmotorworks.com/porsche-collision-repair-sarasota): 911, 718, Taycan, Cayenne, Panamera. PTS paint, GT3 carbon aero, PIWIS recalibration.
+- [Bentley collision repair](https://www.spmotorworks.com/bentley-collision-repair-sarasota): Continental GT, Flying Spur, Bentayga, Mulsanne. Superformed aluminum, deep-gloss paint.
+- [Mercedes-AMG collision repair](https://www.spmotorworks.com/mercedes-amg-collision-repair-sarasota): G63, AMG GT, SL, E63, C63, Brabus and Mansory builds. Matte designo, widebody refit.
+- [BMW M collision repair](https://www.spmotorworks.com/bmw-m-collision-repair-sarasota): M2, M3, M4, M5, M8, X5 M, XM. CFRP roof, Individual and frozen paint.
+
+## Other services
+- [Body kits and widebody installs](https://www.spmotorworks.com/body-kits): Mansory, Brabus, Novitec, 1016 Industries, Liberty Walk.
+- [Paint work](https://www.spmotorworks.com/paint-work): factory color match, tri-coat, matte, Paint to Sample.
+- [Featured builds](https://www.spmotorworks.com/builds): documented before and after work.
+
+## How the shop answers common questions
+- [FAQ](https://www.spmotorworks.com/faq): timeline, OEM parts, insurance, rental, storage, total loss, warranty, delivery.
+- [OEM parts explained](https://www.spmotorworks.com/explainers/oem-parts)
+- [Paint match explained](https://www.spmotorworks.com/explainers/paint-match)
+- [ADAS recalibration explained](https://www.spmotorworks.com/explainers/adas)
+
+## Contact
+- [About Serge](https://www.spmotorworks.com/about)
 - [Contact](https://www.spmotorworks.com/contact)
-- [Request an estimate](https://www.spmotorworks.com/estimate)
+- [Request an estimate with 3 photos](https://www.spmotorworks.com/estimate)
 - [Sitemap](https://www.spmotorworks.com/sitemap.xml)
