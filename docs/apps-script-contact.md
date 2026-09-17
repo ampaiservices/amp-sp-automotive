@@ -7,9 +7,9 @@ Both lead funnels (`/contact` and `/estimate`) post submissions to the same Apps
 1. In the shared agency workspace, create a Google Sheet titled `SP Automotive — Leads`.
 2. Create two tabs:
    - **`Leads`** — headers (row 1, columns A → H):
-     `timestamp · name · phone · email · vehicle · description · photoUrls`
+     `timestamp · name · phone · email · vehicle · description · photoUrls · source`
    - **`Estimates`** — headers (row 1, columns A → E):
-     `timestamp · name · phone · vehicle · photoUrls`
+     `timestamp · name · phone · vehicle · photoUrls · source`
 3. Open **Extensions → Apps Script** from the sheet. Paste the script from below.
 4. Click **Deploy → New deployment → Web app**:
    - **Execute as:** Me
@@ -31,6 +31,7 @@ function doPost(e) {
       data.phone || "",
       data.vehicle || "",
       data.photoUrls || "",
+      data.source || "",
     ]);
   } else {
     // Default: contact funnel. Treat anything without a recognized kind as
@@ -44,6 +45,7 @@ function doPost(e) {
       data.vehicle || "",
       data.description || "",
       data.photoUrls || "",
+      data.source || "",
     ]);
   }
 

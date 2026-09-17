@@ -17,6 +17,7 @@ export type ContactLead = {
   vehicle: string;
   description: string;
   photoUrls: string[];
+  source: string;
 };
 
 // Estimate is the lighter funnel — phone + vehicle + photos only. No email, no
@@ -26,6 +27,7 @@ export type EstimateLead = {
   phone: string;
   vehicle: string;
   photoUrls: string[];
+  source: string;
 };
 
 export async function sendContactEmail(
@@ -45,6 +47,7 @@ export async function sendContactEmail(
     <p><strong>Phone:</strong> <a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></p>
     <p><strong>Email:</strong> <a href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></p>
     <p><strong>Vehicle:</strong> ${escapeHtml(lead.vehicle)}</p>
+    <p><strong>Found us via:</strong> ${escapeHtml(lead.source || "Not answered")}</p>
     <p><strong>Description:</strong></p>
     <p style="white-space: pre-wrap;">${escapeHtml(lead.description)}</p>
     <p><strong>Photos:</strong></p>
@@ -82,6 +85,7 @@ export async function sendEstimateEmail(
     <p><strong>Name:</strong> ${escapeHtml(lead.name)}</p>
     <p><strong>Phone:</strong> <a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></p>
     <p><strong>Vehicle:</strong> ${escapeHtml(lead.vehicle)}</p>
+    <p><strong>Found us via:</strong> ${escapeHtml(lead.source || "Not answered")}</p>
     <p><strong>Photos:</strong></p>
     <ul>${photoList}</ul>
     <p style="color:#666;font-size:12px;">Lighter funnel — no email or description. Call back to scope the repair.</p>

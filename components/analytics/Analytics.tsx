@@ -2,6 +2,7 @@ import Script from "next/script";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
+import AiReferral from "./AiReferral";
 
 // Each tracker is gated on its env var so missing IDs no-op cleanly in
 // development and preview deploys before keys are issued.
@@ -16,6 +17,7 @@ const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
 export default function Analytics() {
   return (
     <>
+      <AiReferral />
       <VercelAnalytics />
       <SpeedInsights />
       {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : GA4_ID && /^G-[A-Z0-9]+$/.test(GA4_ID) ? <GoogleAnalytics gaId={GA4_ID} /> : null}

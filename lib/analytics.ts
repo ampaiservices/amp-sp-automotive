@@ -12,6 +12,7 @@ type EventMap = {
   estimate_submit_attempt: Record<string, never>;
   estimate_submit_success: Record<string, never>;
   estimate_submit_error: { reason?: string };
+  ai_referral: { source: string; landing: string };
 };
 
 export function track<K extends keyof EventMap>(
