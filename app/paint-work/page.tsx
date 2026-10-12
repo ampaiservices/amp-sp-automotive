@@ -8,6 +8,7 @@ import RevealSection from "@/components/ui/RevealSection";
 import ColorSwatchLibrary from "@/components/paint-work/ColorSwatchLibrary";
 import { COLORS } from "@/components/paint-work/colors-data";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 
 const TITLE = "Paint work — booth-mixed, measured, documented";
 const DESCRIPTION =
@@ -20,6 +21,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${TITLE} — ${SITE_NAME}`,
     description: DESCRIPTION,
+    url: `${SITE_URL}/paint-work`,
+    siteName: SITE_NAME,
+    type: "website",
     images: ["/builds/urus-1016/kit.webp"],
   },
 };
@@ -53,7 +57,7 @@ function ServiceJsonLd() {
     "@type": "Service",
     name: "Exotic paint refinish and color match",
     description: DESCRIPTION,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@id": `${SITE_URL}/#business` },
     serviceType: "Automotive paint refinishing and color matching",
     areaServed: "Sarasota, FL",
   };
@@ -69,6 +73,7 @@ export default function PaintWorkPage() {
   return (
     <>
       <ServiceJsonLd />
+      <BreadcrumbJsonLd items={[{ name: "Paint Work", path: "/paint-work" }]} />
 
       {/* HERO — warm dark. Stays on-brand with the workshop-cinema voice
           but pushes the cool ink toward a warm near-black with a strong
