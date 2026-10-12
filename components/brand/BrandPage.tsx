@@ -5,7 +5,8 @@ import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 import FinalCTA from "@/components/cta/FinalCTA";
 import BrandPageView from "@/components/analytics/BrandPageView";
 import { PUBLISHED_TESTIMONIALS } from "@/components/testimonials/testimonials-data";
-import { SITE_NAME, SITE_URL, PHONE, CITY, REGION } from "@/lib/site";
+import { SITE_URL, CITY } from "@/lib/site";
+import BrandFAQ from "./BrandFAQ";
 import type { Brand } from "./brands-data";
 
 // Reusable composition for every brand-specific landing page. One Brand entry
@@ -20,22 +21,25 @@ export default function BrandPage({ brand }: { brand: Brand }) {
     "@type": "Service",
     name: `${brand.name} Collision Repair`,
     description: brand.metaDescription,
-    provider: {
-      "@type": "AutoBodyShop",
-      name: SITE_NAME,
-      url: SITE_URL,
-      telephone: PHONE,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: CITY,
-        addressRegion: REGION,
-        addressCountry: "US",
-      },
-    },
+    // Reference the single AutoBodyShop node emitted site-wide by
+    // LocalBusinessJsonLd (app/layout.tsx) instead of re-declaring it.
+    provider: { "@id": `${SITE_URL}/#business` },
     areaServed: { "@type": "City", name: CITY },
     serviceType: `${brand.name} collision repair, paint, frame, and ADAS recalibration`,
     url: `${SITE_URL}/${brand.slug}`,
     brand: { "@type": "Brand", name: brand.name },
+  };
+
+  // Owner questions, phrased the way people ask an AI assistant. Same
+  // FAQPage shape as /faq so answer engines can lift a single Q&A.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: brand.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
   };
 
   return (
@@ -44,10 +48,15 @@ export default function BrandPage({ brand }: { brand: Brand }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <BrandPageView brand={brand.brandKey} />
       <BrandHero brand={brand} />
       <BrandServices brand={brand} />
       <BrandModels brand={brand} />
+      <BrandFAQ brand={brand} />
       {hasBrandTestimonials && (
         <TestimonialsSection
           brand={brand.brandKey}

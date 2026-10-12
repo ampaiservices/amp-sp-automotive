@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import LeadSourceField from "@/components/forms/LeadSourceField";
 import { upload } from "@vercel/blob/client";
 import Button from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
@@ -27,6 +28,8 @@ export default function ContactForm() {
   const [vehicle, setVehicle] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [source, setSource] = useState("");
+  const [sourceDetail, setSourceDetail] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
@@ -116,7 +119,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, email, vehicle, description, photoUrls }),
+        body: JSON.stringify({ name, phone, email, vehicle, description, photoUrls, source, sourceDetail }),
       });
 
       if (!res.ok) {
@@ -226,6 +229,14 @@ export default function ContactForm() {
           <p id="vehicle-error" className="mt-2 text-xs text-ignite">{fieldErrors.vehicle}</p>
         )}
       </div>
+
+      <LeadSourceField
+        value={source}
+        onChange={(s, d) => { setSource(s); setSourceDetail(d); }}
+        disabled={inFlight}
+        labelClassName={labelCls}
+        inputClassName={inputCls}
+      />
 
       <div>
         <label htmlFor="description" className={labelCls}>Brief description<span aria-hidden className="text-ignite ml-1">*</span></label>

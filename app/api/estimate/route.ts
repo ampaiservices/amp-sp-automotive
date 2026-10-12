@@ -1,5 +1,6 @@
 import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
+import { isLeadSource } from "@/lib/lead-source";
 import { sendEstimateEmail, type EstimateLead } from "@/lib/email";
 import { appendEstimateToSheet } from "@/lib/sheets";
 
@@ -77,11 +78,19 @@ function parseEstimate(input: unknown): EstimateLead | null {
     .filter((u) => u.startsWith("https://"))
     .slice(0, MAX_PHOTOS);
 
-  return { name, phone, vehicle, photoUrls };
+  return { name, phone, vehicle, photoUrls, source: parseSource(o) };
 }
 
 function trimString(v: unknown, max: number): string {
   if (typeof v !== "string") return "";
   const trimmed = v.trim();
   return trimmed.length > max ? trimmed.slice(0, max) : trimmed;
+}
+
+// Allowlisted "How did you find us" value plus an optional detected AI
+// assistant name (letters only) so "ChatGPT" reaches the email and sheet.
+function parseSource(o: Record<string, unknown>): string {
+  if (!isLeadSource(o.source)) return "";
+  const detail = typeof o.sourceDetail === "string" ? o.sourceDetail.trim() : "";
+  return /^[A-Za-z ]{1,20}$/.test(detail) ? `${o.source} (${detail})` : o.source;
 }

@@ -5,7 +5,7 @@ export const PHONE_HREF = "tel:+19415994025";
 // owner to attach photos.
 export const SMS_HREF = `sms:+19415994025?body=${encodeURIComponent("Photos of damage:")}`;
 // Resolved at build time. Set NEXT_PUBLIC_SITE_URL=https://<apex-domain>
-// (e.g. https://sp-automotive.com) in Vercel production env settings.
+// (e.g. https://spmotorworks.com) in Vercel production env settings.
 // Preview deploys auto-fall-back to VERCEL_URL. Local dev → localhost.
 // Production without an explicit URL throws — refusing to ship preview
 // hostnames into canonicals, sitemap, JSON-LD, and OG metadata.
@@ -29,7 +29,7 @@ function resolveSiteUrl(): string {
   if (typeof window === "undefined") {
     if (process.env.VERCEL_ENV === "production") {
       throw new Error(
-        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the apex domain (e.g. https://sp-automotive.com) in Vercel project settings.",
+        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the apex domain (e.g. https://spmotorworks.com) in Vercel project settings.",
       );
     }
     // Non-Vercel production deploys (Railway, Render, bare Docker, etc.)
@@ -42,7 +42,7 @@ function resolveSiteUrl(): string {
     // shippable artifact, and shouldn't be blocked by missing prod env.
     if (process.env.NODE_ENV === "production" && !process.env.CI) {
       throw new Error(
-        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the apex domain (e.g. https://sp-automotive.com).",
+        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the apex domain (e.g. https://spmotorworks.com).",
       );
     }
   }
@@ -77,3 +77,30 @@ export const HOURS_CLOSE = "17:00";
 // published. Used for LocalBusiness JSON-LD geo coordinates.
 export const GEO_LAT = 27.3364;
 export const GEO_LNG = -82.5307;
+
+// ---------------------------------------------------------------------------
+// Entity corroboration for AI search (ChatGPT, Perplexity, Google AI).
+// Answer engines weight a business that is confirmed across several sources.
+// Every field below is optional and is OMITTED from JSON-LD while empty, so
+// nothing fabricated ships. Fill each one only with a verified value.
+// ---------------------------------------------------------------------------
+
+/** Street line of the shop address. Empty until Serge publishes a location. */
+export const STREET_ADDRESS = "";
+
+/** Owner. Emitted as schema.org founder/employee so AI answers attach a person. */
+export const OWNER_NAME = "Serge";
+
+/**
+ * Public profiles for the SAME business. Order does not matter. Add the
+ * Google Business Profile share link, Instagram, Facebook, Yelp, and Bing
+ * Places URLs here once confirmed. Do not add profiles for the unrelated
+ * "SP Automotive" in San Diego (sp-automotive.com).
+ */
+export const SAME_AS: string[] = [];
+
+/**
+ * Google review summary. Copy the figures from the live Google Business
+ * Profile. Leave `count` at 0 to omit aggregateRating entirely.
+ */
+export const REVIEWS = { rating: 0, count: 0 };

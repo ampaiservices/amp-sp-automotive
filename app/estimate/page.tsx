@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PhoneCTA from "@/components/ui/PhoneCTA";
 import SmsCTA from "@/components/ui/SmsCTA";
 import EstimateForm from "./EstimateForm";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, PHONE, PHONE_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Send 3 photos. Get a callback.",
@@ -12,13 +12,16 @@ export const metadata: Metadata = {
 };
 
 export default function EstimatePage() {
+  const formReady = Boolean(
+    process.env.RESEND_API_KEY && process.env.CONTACT_FROM_EMAIL && process.env.CONTACT_RECIPIENT_EMAIL,
+  );
   return (
     <section className="bg-ink px-6 md:px-10 py-32 pt-40">
       <div className="max-w-3xl mx-auto">
         <p className="eyebrow">Estimate</p>
         <h1 className="mt-4 display-lg">Send 3 photos. Get a callback.</h1>
         <p className="editorial mt-8 max-w-2xl">
-          You don&apos;t need a write-up. You don&apos;t need to know what&apos;s damaged. Drop
+          You don&apos;t need a write-up. You don&apos;t need to know what&apos;s damaged. Text
           3 photos that show the worst of it, tell us what the car is, and Serge will be
           back — usually inside the hour, always within 24.
         </p>
@@ -27,7 +30,12 @@ export default function EstimatePage() {
           <SmsCTA location="estimate" />
         </div>
 
-        <EstimateForm />
+        {formReady ? <EstimateForm /> : (
+          <p className="mt-8 text-bone leading-relaxed">
+            Text three photos of the damage with your name and vehicle, or call{' '}
+            <a href={PHONE_HREF} className="underline">{PHONE}</a> to discuss the repair.
+          </p>
+        )}
       </div>
     </section>
   );

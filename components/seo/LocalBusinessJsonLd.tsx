@@ -11,7 +11,41 @@ import {
   HOURS_CLOSE,
   GEO_LAT,
   GEO_LNG,
+  STREET_ADDRESS,
+  OWNER_NAME,
+  SAME_AS,
+  REVIEWS,
 } from "@/lib/site";
+import { BRANDS } from "@/components/brand/brands-data";
+
+// Optional corroboration fields. Each is omitted while its source constant
+// is empty so the JSON-LD never carries a placeholder.
+export function corroboration() {
+  return {
+    ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
+    ...(REVIEWS.count > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: REVIEWS.rating,
+            reviewCount: REVIEWS.count,
+            bestRating: 5,
+          },
+        }
+      : {}),
+  };
+}
+
+export function postalAddress() {
+  return {
+    "@type": "PostalAddress",
+    ...(STREET_ADDRESS ? { streetAddress: STREET_ADDRESS } : {}),
+    addressLocality: CITY,
+    addressRegion: REGION,
+    postalCode: POSTAL_CODE,
+    addressCountry: "US",
+  };
+}
 
 export default function LocalBusinessJsonLd() {
   const data = {
@@ -20,13 +54,11 @@ export default function LocalBusinessJsonLd() {
     name: SITE_NAME,
     url: SITE_URL,
     telephone: PHONE,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: CITY,
-      addressRegion: REGION,
-      postalCode: POSTAL_CODE,
-      addressCountry: "US",
-    },
+    "@id": `${SITE_URL}/#business`,
+    address: postalAddress(),
+    founder: { "@type": "Person", name: OWNER_NAME },
+    knowsAbout: BRANDS.map((b) => `${b.name} collision repair`),
+    ...corroboration(),
     geo: {
       "@type": "GeoCoordinates",
       latitude: GEO_LAT,
