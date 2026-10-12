@@ -7,6 +7,7 @@ import BrandPageView from "@/components/analytics/BrandPageView";
 import { PUBLISHED_TESTIMONIALS } from "@/components/testimonials/testimonials-data";
 import { SITE_URL, CITY } from "@/lib/site";
 import BrandFAQ from "./BrandFAQ";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import type { Brand } from "./brands-data";
 
 // Reusable composition for every brand-specific landing page. One Brand entry
@@ -51,6 +52,9 @@ export default function BrandPage({ brand }: { brand: Brand }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <BreadcrumbJsonLd
+        items={[{ name: `${brand.name} Collision Repair`, path: `/${brand.slug}` }]}
       />
       <BrandPageView brand={brand.brandKey} />
       <BrandHero brand={brand} />

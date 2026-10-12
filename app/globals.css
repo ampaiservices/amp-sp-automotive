@@ -372,11 +372,38 @@ body {
   will-change: opacity, transform;
 }
 
+/* Rise reveal (SplitText reveal="rise"): text is opaque from the first
+   paint (keeps the hero headline eligible as the LCP element before JS
+   hydrates); each word only settles upward. Transform-only, CSS-driven,
+   starts with the HTML, no JS dependency. */
+.st-wrap[data-reveal="rise"] .st-word {
+  animation: st-rise var(--st-duration, 460ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--st-delay, 0ms) + var(--st-wi, 0) * 90ms);
+}
+@keyframes st-rise {
+  from { transform: translate3d(0, 0.14em, 0); }
+  to   { transform: none; }
+}
+
+/* Hero lead / CTAs: visible in the server HTML, transform-only settle. */
+.hero-rise {
+  animation: hero-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--hero-rise-delay, 0ms);
+}
+@keyframes hero-rise {
+  from { transform: translate3d(0, 12px, 0); }
+  to   { transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .st-wrap { transition: none; }
   .st-char {
     opacity: 1;
     transform: none;
+  }
+  .st-wrap[data-reveal="rise"] .st-word,
+  .hero-rise {
+    animation: none;
   }
 }
 

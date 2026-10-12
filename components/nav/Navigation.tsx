@@ -172,8 +172,11 @@ export default function Navigation() {
           <Image
             src="/logos/sp-mark.png"
             alt="SP Automotive"
-            width={654}
-            height={241}
+            // Intrinsic 654x241, rendered at h-10 (40px). Declaring the
+            // rendered size keeps the srcset at 1x/2x of ~109px instead of
+            // preloading 750w/1920w variants of a nav logo.
+            width={109}
+            height={40}
             priority
             className="h-10 w-auto invert"
           />

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import BrandPage from "@/components/brand/BrandPage";
 import { getBrand } from "@/components/brand/brands-data";
-import { SITE_URL } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 const brand = getBrand("porsche-collision-repair-sarasota")!;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: brand.metaTitle,
   description: brand.metaDescription,
-  alternates: { canonical: `${SITE_URL}/porsche-collision-repair-sarasota` },
-  openGraph: { title: brand.metaTitle, description: brand.metaDescription },
-};
+  path: `/${brand.slug}`,
+});
 
 export default function Page() {
   return <BrandPage brand={brand} />;

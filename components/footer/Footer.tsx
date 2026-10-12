@@ -15,7 +15,7 @@ export default function Footer() {
           swaps to a static poster for prefers-reduced-motion users. */}
       <AmbientVideo
         src="/footer-ambient.mp4"
-        poster="/footer-ambient-poster.jpg"
+        poster="/footer-ambient-poster.webp"
       />
       {/* Dark scrim over the ambient red footage. Without it, the entire
           footer reads as a saturated red flood — which competes with the
@@ -32,8 +32,8 @@ export default function Footer() {
           <Image
             src="/logos/sp-mark.png"
             alt="SP Automotive Collision &amp; Repair"
-            width={654}
-            height={241}
+            width={174}
+            height={64}
             className="h-16 w-auto invert"
           />
           <p className="mt-3 text-bone/85 text-sm">{CITY}, {REGION}</p>

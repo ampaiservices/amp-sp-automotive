@@ -9,6 +9,7 @@ import RevealSection from "@/components/ui/RevealSection";
 import CarOrbit from "@/components/body-kits/CarOrbit";
 import { BUILDS } from "@/components/builds/builds-data";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 
 const TITLE = "Body kits — mounted, painted, finished to spec";
 const DESCRIPTION =
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${TITLE} — ${SITE_NAME}`,
     description: DESCRIPTION,
+    url: `${SITE_URL}/body-kits`,
+    siteName: SITE_NAME,
+    type: "website",
     images: ["/builds/urus-1016/kit.webp"],
   },
 };
@@ -98,7 +102,7 @@ function ServiceJsonLd() {
     "@type": "Service",
     name: "Body kit installation",
     description: DESCRIPTION,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@id": `${SITE_URL}/#business` },
     serviceType: "Aftermarket aero installation and paint match",
     areaServed: "Sarasota, FL",
   };
@@ -114,6 +118,7 @@ export default function BodyKitsPage() {
   return (
     <>
       <ServiceJsonLd />
+      <BreadcrumbJsonLd items={[{ name: "Body Kits", path: "/body-kits" }]} />
 
       {/* HERO — ambient workshop loop under an edge-darkening gradient.
           SplitText reveals the headline; the eyebrow, intro, and spec
@@ -126,7 +131,7 @@ export default function BodyKitsPage() {
       >
         <AmbientVideo
           src="/chapter-clips/05-workshop.mp4"
-          poster="/chapter-clips/05-workshop-poster.jpg"
+          poster="/chapter-clips/05-workshop-poster.webp"
         />
         <div
           aria-hidden

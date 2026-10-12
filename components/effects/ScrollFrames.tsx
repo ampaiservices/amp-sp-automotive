@@ -101,13 +101,32 @@ export default function ScrollFrames({ frameCount, framePattern, fallbackPoster 
       };
       if (i <= EAGER_COUNT) {
         im.src = framePath(framePattern, i);
-      } else {
+      }
+      images.push(im);
+    }
+
+    // The remaining frames only matter once the visitor scrolls the hero,
+    // so wait for the first scroll intent before queueing them at idle
+    // priority. Visitors who never scroll (and lab page loads) no longer
+    // pay for ~110 frames they never see.
+    let restQueued = false;
+    function queueRest() {
+      if (restQueued) return;
+      restQueued = true;
+      for (let i = EAGER_COUNT; i < images.length; i++) {
+        const im = images[i];
+        const idx = i + 1;
         scheduleAtIdle(() => {
           im.src = framePath(framePattern, idx);
         });
       }
-      images.push(im);
     }
+    const INTENT_EVENTS = ["scroll", "wheel", "touchstart", "keydown"] as const;
+    for (const ev of INTENT_EVENTS) {
+      window.addEventListener(ev, queueRest, { passive: true, once: true });
+    }
+    // Already scrolled (restored scroll position / anchor link).
+    if (window.scrollY > 0) queueRest();
 
     function sizeCanvas() {
       const rect = wrapper!.getBoundingClientRect();
@@ -174,6 +193,7 @@ export default function ScrollFrames({ frameCount, framePattern, fallbackPoster 
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      for (const ev of INTENT_EVENTS) window.removeEventListener(ev, queueRest);
       ro.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
       // Cancel any pending idle-scheduled image loads so they don't
