@@ -11,7 +11,7 @@
 // Run under Node (sharp hangs under Bun on some machines).
 import sharp from "sharp";
 import { readdirSync, statSync, unlinkSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 const QUALITY = 82;
 
@@ -31,7 +31,8 @@ async function main() {
     console.error("Usage: node scripts/jpg-to-webp.ts <dir-or-file> [...]");
     process.exit(1);
   }
-  const files = targets.flatMap(collect);
+  // Dedupe: a directory plus a file inside it must not convert twice.
+  const files = [...new Set(targets.flatMap(collect).map((f) => resolve(f)))];
   console.log(`Converting ${files.length} JPGs to WebP (q${QUALITY})...`);
   let totalIn = 0;
   let totalOut = 0;
