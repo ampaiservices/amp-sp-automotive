@@ -8,7 +8,7 @@ Both lead funnels (`/contact` and `/estimate`) post submissions to the same Apps
 2. Create two tabs:
    - **`Leads`** — headers (row 1, columns A → H):
      `timestamp · name · phone · email · vehicle · description · photoUrls · source`
-   - **`Estimates`** — headers (row 1, columns A → E):
+   - **`Estimates`** — headers (row 1, columns A → F):
      `timestamp · name · phone · vehicle · photoUrls · source`
 3. Open **Extensions → Apps Script** from the sheet. Paste the script from below.
 4. Click **Deploy → New deployment → Web app**:

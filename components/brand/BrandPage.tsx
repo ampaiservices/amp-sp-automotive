@@ -5,8 +5,7 @@ import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 import FinalCTA from "@/components/cta/FinalCTA";
 import BrandPageView from "@/components/analytics/BrandPageView";
 import { PUBLISHED_TESTIMONIALS } from "@/components/testimonials/testimonials-data";
-import { SITE_NAME, SITE_URL, PHONE, CITY } from "@/lib/site";
-import { corroboration, postalAddress } from "@/components/seo/LocalBusinessJsonLd";
+import { SITE_URL, CITY } from "@/lib/site";
 import BrandFAQ from "./BrandFAQ";
 import type { Brand } from "./brands-data";
 
@@ -22,15 +21,9 @@ export default function BrandPage({ brand }: { brand: Brand }) {
     "@type": "Service",
     name: `${brand.name} Collision Repair`,
     description: brand.metaDescription,
-    provider: {
-      "@type": "AutoBodyShop",
-      "@id": `${SITE_URL}/#business`,
-      name: SITE_NAME,
-      url: SITE_URL,
-      telephone: PHONE,
-      address: postalAddress(),
-      ...corroboration(),
-    },
+    // Reference the single AutoBodyShop node emitted site-wide by
+    // LocalBusinessJsonLd (app/layout.tsx) instead of re-declaring it.
+    provider: { "@id": `${SITE_URL}/#business` },
     areaServed: { "@type": "City", name: CITY },
     serviceType: `${brand.name} collision repair, paint, frame, and ADAS recalibration`,
     url: `${SITE_URL}/${brand.slug}`,

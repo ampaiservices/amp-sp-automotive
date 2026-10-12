@@ -17,10 +17,9 @@ const AI_HOSTS: Record<string, string> = {
   "claude.ai": "Claude",
   "gemini.google.com": "Gemini",
   "copilot.microsoft.com": "Copilot",
-  "bing.com": "Copilot",
 };
 
-function detect(): string | null {
+export function detectAiSource(): string | null {
   const params = new URLSearchParams(window.location.search);
   const utm = params.get("utm_source")?.toLowerCase() ?? "";
   for (const host in AI_HOSTS) {
@@ -39,11 +38,14 @@ function detect(): string | null {
 
 export default function AiReferral() {
   useEffect(() => {
-    const source = detect();
+    const source = detectAiSource();
     if (!source) return;
     try {
-      if (sessionStorage.getItem(AI_SOURCE_KEY)) return;
-      sessionStorage.setItem(AI_SOURCE_KEY, source);
+      // First AI source of the session wins for form attribution, but every
+      // AI arrival is still tracked.
+      if (!sessionStorage.getItem(AI_SOURCE_KEY)) {
+        sessionStorage.setItem(AI_SOURCE_KEY, source);
+      }
     } catch {
       // Storage blocked. Still record the event.
     }
