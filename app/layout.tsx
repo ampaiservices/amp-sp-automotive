@@ -64,8 +64,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${anton.variable} ${hanken.variable}`}>
       <head>
         <LocalBusinessJsonLd />
-        {/* Preload the poster only — it's the LCP candidate. The video element streams on its own; explicit video preload was tanking LCP at 9.8MB. */}
-        <link rel="preload" as="image" href="/hero-clips/cinematic-poster.jpg" fetchPriority="high" />
+        {/* No sitewide image preload: the hero LCP element is the SSR
+            headline text, and the old cinematic-poster.jpg preload was
+            fetched at high priority on every page but only ever painted
+            for reduced-motion visitors (who get it via next/image). The
+            homepage preloads its first scrub frame from HeroVideo. */}
       </head>
       <body className="text-bone font-body antialiased film-grain">
         <a

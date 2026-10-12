@@ -117,7 +117,7 @@ export default function HowItWorks() {
           swaps to a static poster for prefers-reduced-motion users. */}
       <AmbientVideo
         src="/chapter-clips/05-workshop.mp4"
-        poster="/chapter-clips/05-workshop-poster.jpg"
+        poster="/chapter-clips/05-workshop-poster.webp"
       />
 
       {/* Section label — Anton uppercase, no chapter numeral. */}

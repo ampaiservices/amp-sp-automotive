@@ -24,6 +24,12 @@ type SplitTextTag = "span" | "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h
 //   "controlled" - parent writes --st externally on every scroll frame
 //                  (e.g., CornerSection's compute()). No CSS transition;
 //                  reveal tracks scroll directly.
+//   "rise"       - characters are fully opaque in the server HTML (--st = 1)
+//                  and each word settles upward via a CSS-only transform
+//                  keyframe that starts on first paint, before hydration.
+//                  Use for above-the-fold headlines that are the LCP
+//                  element: opacity never starts at 0, so the text counts
+//                  as painted on the first frame.
 //
 // Reduced-motion: renders plain children, no per-char DOM, no animation.
 
@@ -32,7 +38,7 @@ type Props = {
   as?: SplitTextTag;
   staggerMs?: number;
   durationMs?: number;
-  reveal?: "mount" | "controlled";
+  reveal?: "mount" | "controlled" | "rise";
   mountDelayMs?: number;
   className?: string;
   style?: CSSProperties;
@@ -131,6 +137,7 @@ export default function SplitText({
 
   const total = chars.length;
   const totalDurationMs = staggerMs * total + durationMs;
+  let wordIndex = 0;
 
   return (
     <As
@@ -142,10 +149,16 @@ export default function SplitText({
       style={
         {
           ...style,
-          "--st": reveal === "mount" ? "0" : undefined,
+          "--st": reveal === "mount" ? "0" : reveal === "rise" ? "1" : undefined,
           "--st-total": String(total),
           "--st-overlap": "6",
           "--st-transition": `${totalDurationMs}ms`,
+          ...(reveal === "rise"
+            ? {
+                "--st-delay": `${mountDelayMs}ms`,
+                "--st-duration": `${durationMs}ms`,
+              }
+            : {}),
         } as CSSProperties
       }
     >
@@ -157,7 +170,16 @@ export default function SplitText({
           return " ";
         }
         return (
-          <span key={`${uid}-w-${ti}`} className="st-word" aria-hidden="true">
+          <span
+            key={`${uid}-w-${ti}`}
+            className="st-word"
+            aria-hidden="true"
+            style={
+              reveal === "rise"
+                ? ({ "--st-wi": String(wordIndex++) } as CSSProperties)
+                : undefined
+            }
+          >
             {tok.chars.map(({ ch, i }) => (
               <span
                 key={`${uid}-${i}`}

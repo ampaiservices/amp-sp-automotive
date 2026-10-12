@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef } from "react";
 import Link from "next/link";
+import { preload } from "react-dom";
 import PhoneCTA from "@/components/ui/PhoneCTA";
 import SmsCTA from "@/components/ui/SmsCTA";
 import SplitText from "@/components/effects/SplitText";
@@ -17,11 +18,15 @@ import Surface from "@/components/ui/Surface";
 // afterward, and a hero-only parallax that drifts the text upward as the
 // user starts scrolling.
 //
-// Entry choreography (mount sequence):
-//   200 ms — "Totaled." characters stagger in
-//   600 ms — "Paid in Full." characters stagger in
-//   950 ms — glass lead card translates up + fades in
-//  1100 ms — phone + SMS CTAs fade up
+// Entry choreography (CSS-only, starts on first paint, no JS dependency):
+//     0 ms — "Totaled." settles up
+//   120 ms — "Paid in Full." settles up
+//   240 ms — lead copy / glass card settles up
+//   320 ms — phone + SMS CTAs settle up
+// Everything is fully opaque in the server HTML; only transform animates.
+// The headline is the mobile LCP element, so it must never start at
+// opacity 0 or wait on hydration (audit 2026-10-12: 3.3 s render delay).
+// prefers-reduced-motion disables the settle entirely (globals.css).
 //
 // Parallax: text drifts at 0.22x scroll, card at 0.16x. CSS variables on
 // the section element propagate to mobile + desktop subtrees so a single
@@ -33,19 +38,16 @@ import Surface from "@/components/ui/Surface";
 const HERO_LEAD =
   "We deal with the insurance. You walk away whole — sometimes ahead.";
 
-export default function HeroVideo() {
-  const [cardReady, setCardReady] = useState(false);
-  const [ctasReady, setCtasReady] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
+const riseDelay = (ms: number) =>
+  ({ "--hero-rise-delay": `${ms}ms` }) as CSSProperties;
 
-  useEffect(() => {
-    const a = window.setTimeout(() => setCardReady(true), 950);
-    const b = window.setTimeout(() => setCtasReady(true), 1100);
-    return () => {
-      window.clearTimeout(a);
-      window.clearTimeout(b);
-    };
-  }, []);
+const HERO_FRAME_PATTERN = "/hero-clips/frames/frame-{n}.webp";
+
+export default function HeroVideo() {
+  // Emitted into the SSR <head> so the first scrub frame is already cached
+  // when ScrollFrames mounts and paints it to the canvas.
+  preload(HERO_FRAME_PATTERN.replace("{n}", "001"), { as: "image" });
+  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -95,10 +97,10 @@ export default function HeroVideo() {
           on Chrome AND Safari at 1080p/30fps — the bottleneck was the
           browser's video decoder running ~60 seek+decode+paint cycles
           per second under Lenis. Image sequence avoids decode entirely:
-          pre-extracted JPGs swap via <img src> on cached images. */}
+          pre-extracted WebP frames swap via <img src> on cached images. */}
       <ScrollFrames
         frameCount={120}
-        framePattern="/hero-clips/frames/frame-{n}.jpg"
+        framePattern={HERO_FRAME_PATTERN}
         fallbackPoster="/hero-clips/cinematic-poster.jpg"
       />
       <h1 className="sr-only">
@@ -128,42 +130,29 @@ export default function HeroVideo() {
         <SplitText
           as="span"
           className="display-bleed display-bleed--shine"
-          mountDelayMs={200}
-          staggerMs={28}
-          durationMs={420}
+          reveal="rise"
+          mountDelayMs={0}
+          durationMs={460}
         >
           Totaled.
         </SplitText>
         <SplitText
           as="span"
           className="display-bleed display-bleed--shine"
-          mountDelayMs={600}
-          staggerMs={26}
-          durationMs={420}
+          reveal="rise"
+          mountDelayMs={120}
+          durationMs={460}
         >
           Paid in Full.
         </SplitText>
-        <p
-          className={`lead text-bone/95 max-w-md mt-4 transition-[opacity,transform] duration-[420ms] ease-out ${
-            cardReady ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-          }`}
-        >
+        <p className="hero-rise lead text-bone/95 max-w-md mt-4" style={riseDelay(240)}>
           {HERO_LEAD}
         </p>
-        <div
-          className={`flex flex-wrap gap-4 justify-center transition-opacity duration-300 ease-out ${
-            ctasReady ? "opacity-100" : "opacity-0"
-          }`}
-        >
+        <div className="hero-rise flex flex-wrap gap-4 justify-center" style={riseDelay(320)}>
           <PhoneCTA size="lg" location="hero" />
           <SmsCTA location="hero" />
         </div>
-        <p
-          className={`eyebrow transition-opacity duration-300 ease-out ${
-            ctasReady ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transitionDelay: ctasReady ? "60ms" : "0ms" }}
-        >
+        <p className="hero-rise eyebrow" style={riseDelay(380)}>
           Or{" "}
           <Link
             href="/estimate"
@@ -182,18 +171,18 @@ export default function HeroVideo() {
         <SplitText
           as="span"
           className="display-bleed display-bleed--shine absolute top-[14%] left-[3vw] z-[5]"
-          mountDelayMs={200}
-          staggerMs={32}
-          durationMs={460}
+          reveal="rise"
+          mountDelayMs={0}
+          durationMs={520}
         >
           Totaled.
         </SplitText>
         <SplitText
           as="span"
           className="display-bleed display-bleed--shine absolute bottom-[22%] right-[3vw] z-[5] text-right"
-          mountDelayMs={600}
-          staggerMs={26}
-          durationMs={460}
+          reveal="rise"
+          mountDelayMs={120}
+          durationMs={520}
         >
           Paid in Full.
         </SplitText>
@@ -201,49 +190,38 @@ export default function HeroVideo() {
 
       {/* Desktop: liquid-glass lead card — bottom-left, off-axis from "Paid in Full." */}
       <div
-        className={`hidden md:block absolute bottom-12 left-10 z-20 max-w-sm text-left transition-[opacity,transform] duration-[420ms] ease-out ${
-          cardReady ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          transform: cardReady
-            ? "translate3d(0, var(--hero-y-card, 0px), 0)"
-            : "translate3d(0, calc(20px + var(--hero-y-card, 0px)), 0)",
-        }}
+        className="hidden md:block absolute bottom-12 left-10 z-20 max-w-sm text-left"
+        style={{ transform: "translate3d(0, var(--hero-y-card, 0px), 0)" }}
       >
-        {/* Committed-glass lead card. Earlier iteration used a hand-rolled
-            bg-white/[0.015] treatment that read as nearly invisible against
-            the cinematic backdrop — original audit P2-a. Now uses the
-            shared Surface "glass" variant (dark mid-alpha tint + strong
-            backdrop blur + border + ring + shadow) so the card establishes
-            itself as a deliberate floating element on the hero video. */}
-        <Surface
-          variant="glass"
-          className="rounded-3xl p-8 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-        >
-          <p className="lead text-bone/95">{HERO_LEAD}</p>
-          <div
-            className={`mt-6 flex flex-wrap gap-3 transition-opacity duration-300 ease-out ${
-              ctasReady ? "opacity-100" : "opacity-0"
-            }`}
+        {/* Settle animation lives on an inner wrapper so its keyframe
+            transform does not fight the parallax transform above. */}
+        <div className="hero-rise" style={riseDelay(240)}>
+          {/* Committed-glass lead card. Earlier iteration used a hand-rolled
+              bg-white/[0.015] treatment that read as nearly invisible against
+              the cinematic backdrop — original audit P2-a. Now uses the
+              shared Surface "glass" variant (dark mid-alpha tint + strong
+              backdrop blur + border + ring + shadow) so the card establishes
+              itself as a deliberate floating element on the hero video. */}
+          <Surface
+            variant="glass"
+            className="rounded-3xl p-8 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
-            <PhoneCTA size="lg" location="hero" />
-            <SmsCTA location="hero" />
-          </div>
-          <p
-            className={`eyebrow mt-5 transition-opacity duration-300 ease-out ${
-              ctasReady ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ transitionDelay: ctasReady ? "60ms" : "0ms" }}
-          >
-            Or{" "}
-            <Link
-              href="/estimate"
-              className="link-underline text-bone hover:text-ignite transition-colors"
-            >
-              send 3 photos for a callback
-            </Link>
-          </p>
-        </Surface>
+            <p className="lead text-bone/95">{HERO_LEAD}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <PhoneCTA size="lg" location="hero" />
+              <SmsCTA location="hero" />
+            </div>
+            <p className="eyebrow mt-5">
+              Or{" "}
+              <Link
+                href="/estimate"
+                className="link-underline text-bone hover:text-ignite transition-colors"
+              >
+                send 3 photos for a callback
+              </Link>
+            </p>
+          </Surface>
+        </div>
       </div>
     </section>
   );

@@ -89,7 +89,7 @@ export default function BodyworkAndEstimates() {
               <div className="relative h-full min-h-[18rem] w-full bg-ink">
                 <AmbientVideo
                   src="/chapter-clips/04-estimate.mp4"
-                  poster="/chapter-clips/04-estimate-poster.jpg"
+                  poster="/chapter-clips/04-estimate-poster.webp"
                 />
               </div>
             </Surface>
