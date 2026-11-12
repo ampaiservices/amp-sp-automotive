@@ -9,14 +9,14 @@ import {
   HOURS_DAYS,
   HOURS_OPEN,
   HOURS_CLOSE,
-  GEO_LAT,
-  GEO_LNG,
+  BUSINESS_ID,
 } from "@/lib/site";
 
 export default function LocalBusinessJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "AutoBodyShop",
+    "@id": BUSINESS_ID,
     name: SITE_NAME,
     url: SITE_URL,
     telephone: PHONE,
@@ -26,11 +26,6 @@ export default function LocalBusinessJsonLd() {
       addressRegion: REGION,
       postalCode: POSTAL_CODE,
       addressCountry: "US",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: GEO_LAT,
-      longitude: GEO_LNG,
     },
     areaServed: { "@type": "City", name: CITY },
     image: `${SITE_URL}/logos/sp-mark.png`,

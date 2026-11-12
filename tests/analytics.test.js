@@ -53,3 +53,15 @@ test('events before Google initializes are preserved as standard queue commands'
   expect(window.dataLayer).toBe(queued);
   expect(ga.calls[0][1]).toBe('generate_lead');
 });
+
+test('success attribution uses only safe enums in GA4 and GTM', () => {
+  const unsafe = { source_group: 'ai_referral', source_evidence: 'referrer', ai_provider: 'chatgpt', utm_campaign: 'private', referrer_host: 'chatgpt.com', email: 'private@example.com' };
+  const safe = { source_group: 'ai_referral', source_evidence: 'referrer', ai_provider: 'chatgpt' };
+  process.env.NEXT_PUBLIC_GA4_ID = 'G-TEST123';
+  track('estimate_submit_success', unsafe);
+  expect(ga.calls).toEqual([['event', 'generate_lead', { form_name: 'estimate', ...safe }]]);
+  process.env.NEXT_PUBLIC_GTM_ID = 'GTM-TEST';
+  track('contact_submit_success', unsafe);
+  expect(gtm).toHaveBeenCalledWith({ event: 'contact_submit_success', ...safe });
+  expect(ga.calls).toHaveLength(1);
+});

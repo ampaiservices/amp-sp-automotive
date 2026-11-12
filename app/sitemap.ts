@@ -4,28 +4,26 @@ import { BRANDS } from "@/components/brand/brands-data";
 import { BUILDS } from "@/components/builds/builds-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  // Omit lastModified until real per-page revision dates are maintained.
   return [
-    { url: `${SITE_URL}/`, lastModified, priority: 1 },
+    { url: `${SITE_URL}/`, priority: 1 },
     ...BRANDS.map((b) => ({
       url: `${SITE_URL}/${b.slug}`,
-      lastModified,
       priority: 0.9,
     })),
-    { url: `${SITE_URL}/builds`, lastModified, priority: 0.9 },
+    { url: `${SITE_URL}/builds`, priority: 0.9 },
     ...BUILDS.map((b) => ({
       url: `${SITE_URL}/builds/${b.slug}`,
-      lastModified,
       priority: 0.85,
     })),
-    { url: `${SITE_URL}/body-kits`, lastModified, priority: 0.85 },
-    { url: `${SITE_URL}/paint-work`, lastModified, priority: 0.85 },
-    { url: `${SITE_URL}/about`, lastModified, priority: 0.8 },
-    { url: `${SITE_URL}/contact`, lastModified, priority: 0.8 },
-    { url: `${SITE_URL}/estimate`, lastModified, priority: 0.8 },
-    { url: `${SITE_URL}/faq`, lastModified, priority: 0.7 },
-    { url: `${SITE_URL}/explainers/adas`, lastModified, priority: 0.6 },
-    { url: `${SITE_URL}/explainers/paint-match`, lastModified, priority: 0.6 },
-    { url: `${SITE_URL}/explainers/oem-parts`, lastModified, priority: 0.6 },
+    { url: `${SITE_URL}/body-kits`, priority: 0.85 },
+    { url: `${SITE_URL}/paint-work`, priority: 0.85 },
+    { url: `${SITE_URL}/about`, priority: 0.8 },
+    { url: `${SITE_URL}/contact`, priority: 0.8 },
+    { url: `${SITE_URL}/estimate`, priority: 0.8 },
+    { url: `${SITE_URL}/faq`, priority: 0.7 },
+    { url: `${SITE_URL}/explainers/adas`, priority: 0.6 },
+    { url: `${SITE_URL}/explainers/paint-match`, priority: 0.6 },
+    { url: `${SITE_URL}/explainers/oem-parts`, priority: 0.6 },
   ];
 }

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { upload } from "@vercel/blob/client";
 import Button from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
+import { getLeadAttribution } from "@/lib/browser-attribution";
+import { analyticsAttribution } from "@/lib/attribution";
 
 const MAX_FILES = 3;
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -108,7 +110,7 @@ export default function EstimateForm() {
       const res = await fetch("/api/estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, vehicle, photoUrls }),
+        body: JSON.stringify({ name, phone, vehicle, photoUrls, attribution: getLeadAttribution() }),
       });
 
       if (!res.ok) {
@@ -120,7 +122,8 @@ export default function EstimateForm() {
       }
 
       setStatus({ kind: "success" });
-      track("estimate_submit_success");
+      const result = await res.json().catch(() => ({}));
+      track("estimate_submit_success", analyticsAttribution(result?.attribution));
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Something went wrong. Please call directly.";

@@ -1,3 +1,5 @@
+import { normalizeAttribution, analyticsAttribution } from "@/lib/attribution";
+import { SITE_URL } from "@/lib/site";
 import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
 import { sendEstimateEmail, type EstimateLead } from "@/lib/email";
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
     console.warn("Estimate sheet append failed:", sheetResult.error);
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, attribution: analyticsAttribution(lead.attribution) });
 }
 
 function parseEstimate(input: unknown): EstimateLead | null {
@@ -77,7 +79,7 @@ function parseEstimate(input: unknown): EstimateLead | null {
     .filter((u) => u.startsWith("https://"))
     .slice(0, MAX_PHOTOS);
 
-  return { name, phone, vehicle, photoUrls };
+  return { name, phone, vehicle, photoUrls, attribution: normalizeAttribution(o.attribution, new URL(SITE_URL).hostname) };
 }
 
 function trimString(v: unknown, max: number): string {

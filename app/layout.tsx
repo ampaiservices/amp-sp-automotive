@@ -3,6 +3,7 @@ import { Metadata, Viewport } from "next";
 import Navigation from "@/components/nav/Navigation";
 import Footer from "@/components/footer/Footer";
 import Analytics from "@/components/analytics/Analytics";
+import AttributionCapture from "@/components/analytics/AttributionCapture";
 import LocalBusinessJsonLd from "@/components/seo/LocalBusinessJsonLd";
 import SmoothScroll from "@/components/effects/SmoothScroll";
 import StickyContactBar from "@/components/cta/StickyContactBar";
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        <AttributionCapture />
         <SmoothScroll />
         <Navigation />
         <main id="main">{children}</main>

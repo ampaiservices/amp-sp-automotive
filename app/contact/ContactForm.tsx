@@ -3,6 +3,8 @@ import { useState } from "react";
 import { upload } from "@vercel/blob/client";
 import Button from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
+import { getLeadAttribution } from "@/lib/browser-attribution";
+import { analyticsAttribution } from "@/lib/attribution";
 
 const MAX_FILES = 10;
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -116,7 +118,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, email, vehicle, description, photoUrls }),
+        body: JSON.stringify({ name, phone, email, vehicle, description, photoUrls, attribution: getLeadAttribution() }),
       });
 
       if (!res.ok) {
@@ -128,7 +130,8 @@ export default function ContactForm() {
       }
 
       setStatus({ kind: "success" });
-      track("contact_submit_success");
+      const result = await res.json().catch(() => ({}));
+      track("contact_submit_success", analyticsAttribution(result?.attribution));
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Something went wrong. Please call directly.";

@@ -7,7 +7,7 @@ import SplitText from "@/components/effects/SplitText";
 import RevealSection from "@/components/ui/RevealSection";
 import ColorSwatchLibrary from "@/components/paint-work/ColorSwatchLibrary";
 import { COLORS } from "@/components/paint-work/colors-data";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_URL, SITE_NAME, BUSINESS_ID } from "@/lib/site";
 
 const TITLE = "Paint work — booth-mixed, measured, documented";
 const DESCRIPTION =
@@ -53,7 +53,7 @@ function ServiceJsonLd() {
     "@type": "Service",
     name: "Exotic paint refinish and color match",
     description: DESCRIPTION,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@id": BUSINESS_ID },
     serviceType: "Automotive paint refinishing and color matching",
     areaServed: "Sarasota, FL",
   };

@@ -4,8 +4,8 @@ export const PHONE_HREF = "tel:+19415994025";
 // on `sms:` URIs; the encoded prefix keeps the text composer ready for the
 // owner to attach photos.
 export const SMS_HREF = `sms:+19415994025?body=${encodeURIComponent("Photos of damage:")}`;
-// Resolved at build time. Set NEXT_PUBLIC_SITE_URL=https://<apex-domain>
-// (e.g. https://spmotorworks.com) in Vercel production env settings.
+// Resolved at build time. Set NEXT_PUBLIC_SITE_URL=https://<canonical-domain>
+// (e.g. https://www.spmotorworks.com) in Vercel production env settings.
 // Preview deploys auto-fall-back to VERCEL_URL. Local dev → localhost.
 // Production without an explicit URL throws — refusing to ship preview
 // hostnames into canonicals, sitemap, JSON-LD, and OG metadata.
@@ -29,7 +29,7 @@ function resolveSiteUrl(): string {
   if (typeof window === "undefined") {
     if (process.env.VERCEL_ENV === "production") {
       throw new Error(
-        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the apex domain (e.g. https://spmotorworks.com) in Vercel project settings.",
+        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the canonical domain (e.g. https://www.spmotorworks.com) in Vercel project settings.",
       );
     }
     // Non-Vercel production deploys (Railway, Render, bare Docker, etc.)
@@ -42,7 +42,7 @@ function resolveSiteUrl(): string {
     // shippable artifact, and shouldn't be blocked by missing prod env.
     if (process.env.NODE_ENV === "production" && !process.env.CI) {
       throw new Error(
-        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the apex domain (e.g. https://spmotorworks.com).",
+        "NEXT_PUBLIC_SITE_URL is required in production. Set it to the canonical domain (e.g. https://www.spmotorworks.com).",
       );
     }
   }
@@ -73,7 +73,4 @@ export const HOURS_DAYS = [
 export const HOURS_OPEN = "09:00";
 export const HOURS_CLOSE = "17:00";
 
-// City-level geo (Sarasota center). Update if/when a precise location is
-// published. Used for LocalBusiness JSON-LD geo coordinates.
-export const GEO_LAT = 27.3364;
-export const GEO_LNG = -82.5307;
+export const BUSINESS_ID = `${SITE_URL}/#business`;

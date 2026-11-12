@@ -1,3 +1,5 @@
+import { normalizeAttribution, analyticsAttribution } from "@/lib/attribution";
+import { SITE_URL } from "@/lib/site";
 import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
 import { sendContactEmail, type ContactLead } from "@/lib/email";
@@ -57,7 +59,7 @@ export async function POST(request: Request) {
     console.warn("Sheet append failed:", sheetResult.error);
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, attribution: analyticsAttribution(lead.attribution) });
 }
 
 function parseLead(input: unknown): ContactLead | null {
@@ -79,7 +81,7 @@ function parseLead(input: unknown): ContactLead | null {
     .filter((u) => u.startsWith("https://"))
     .slice(0, MAX_PHOTOS);
 
-  return { name, phone, email, vehicle, description, photoUrls };
+  return { name, phone, email, vehicle, description, photoUrls, attribution: normalizeAttribution(o.attribution, new URL(SITE_URL).hostname) };
 }
 
 function trimString(v: unknown, max: number): string {

@@ -1,3 +1,4 @@
+import type { LeadAttribution } from "./attribution";
 import { Resend } from "resend";
 
 // Thin wrapper around Resend so callers don't see the SDK. Returns
@@ -17,6 +18,7 @@ export type ContactLead = {
   vehicle: string;
   description: string;
   photoUrls: string[];
+  attribution?: LeadAttribution;
 };
 
 // Estimate is the lighter funnel — phone + vehicle + photos only. No email, no
@@ -26,6 +28,7 @@ export type EstimateLead = {
   phone: string;
   vehicle: string;
   photoUrls: string[];
+  attribution?: LeadAttribution;
 };
 
 export async function sendContactEmail(
@@ -49,6 +52,7 @@ export async function sendContactEmail(
     <p style="white-space: pre-wrap;">${escapeHtml(lead.description)}</p>
     <p><strong>Photos:</strong></p>
     <ul>${photoList}</ul>
+    ${attributionHtml(lead.attribution)}
   `;
 
   try {
@@ -84,6 +88,7 @@ export async function sendEstimateEmail(
     <p><strong>Vehicle:</strong> ${escapeHtml(lead.vehicle)}</p>
     <p><strong>Photos:</strong></p>
     <ul>${photoList}</ul>
+    ${attributionHtml(lead.attribution)}
     <p style="color:#666;font-size:12px;">Lighter funnel — no email or description. Call back to scope the repair.</p>
   `;
 
@@ -108,4 +113,12 @@ function escapeHtml(s: string): string {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function attributionHtml(attribution?: LeadAttribution): string {
+  if (!attribution) return "<p><strong>Source:</strong> unavailable (legacy submission)</p>";
+  return `<h3>Visit attribution (reported evidence)</h3><ul>${Object.entries(attribution)
+    .filter(([key]) => key !== "version")
+    .map(([key, value]) => `<li><strong>${escapeHtml(key)}:</strong> ${escapeHtml(String(value || "unavailable"))}</li>`)
+    .join("")}</ul>`;
 }
