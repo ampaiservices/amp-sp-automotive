@@ -62,3 +62,27 @@ test("blocked storage keeps memory; malformed or expired records recover", async
     expect((await load()).getLeadAttribution().source_group).toBe("direct_or_unknown");
   }
 });
+
+test("corrupt stored evidence cannot suppress the current visit's campaign", async () => {
+  for (const evidence of [
+    undefined,
+    null,
+    [],
+    "corrupt",
+    {},
+    { version: 2, landing_path: "/", referrer_host: "" },
+    { version: 1, landing_path: null, referrer_host: "" },
+    { version: 1, landing_path: "/", referrer_host: [] },
+  ]) {
+    let record = JSON.stringify({ version: 1, savedAt: Date.now(), evidence });
+    browser("https://www.spmotorworks.com/estimate?utm_source=chatgpt", "", {
+      getItem: () => record,
+      setItem: (_key, value) => { record = value; },
+    });
+    expect((await load()).getLeadAttribution()).toMatchObject({
+      ai_provider: "chatgpt",
+      landing_path: "/estimate",
+    });
+    expect(JSON.parse(record).evidence.ai_provider).toBe("chatgpt");
+  }
+});

@@ -47,11 +47,17 @@ Report weekly by form, source group, provider and evidence type. Keep UTM-claime
 ## External setup and owner verification
 
 1. Production `NEXT_PUBLIC_SITE_URL` should be `https://www.spmotorworks.com`. On November 12, 2026, ordinary HTTP checks observed the apex redirecting to www, home/contact self-canonicals using www, and robots/llms responding 200. These checks do not establish access for actual search crawler IPs or visibility in AI answers. Existing production URL guards remain intact.
-2. Update/redeploy Apps Script and append headers using `docs/apps-script-contact.md`. Until then, the existing fixed-column script ignores attribution even though the webhook receives it. Email retains the new details after the application release. No external Sheet, container or deployment has been modified here.
+2. Update/redeploy Apps Script and append headers using `docs/apps-script-contact.md`. Until then, the existing fixed-column script ignores attribution even though the webhook receives it. Email retains the new details when form delivery is configured. Application deployment does not update the external Sheet or analytics container.
 3. Owner should verify the public business name, phone, city/ZIP, appointment policy and hours against their authoritative business profiles. Publish precise coordinates only with the actual verified shop address and permission to display it.
 4. Review existing published FAQs/brand copy for OEM-only parts, in-house ADAS/calibration, repair-time ranges, warranty, insurance/storage/rental/delivery promises and manufacturer certification implications. Repository copy is evidence of what the site says, not independent proof. No new claims have been added here; existing publication gates remain intact. Keep unpublished FAQs/testimonials out of visible output and JSON-LD.
 5. Build data explicitly says specs are seeded from kit-manufacturer information and images started as placeholders. Owner must confirm project provenance and customer permission before treating those pages as verified case studies. Existing routes were retained; they are excluded from the expanded llms index. Confirm restoration descriptions before amplifying them.
 6. After an authorized release, check the rendered canonical tags, shared business ID, absence of fake geo, sitemap and llms response. Use a staging mailbox, test Sheet and BotID-supported preview environment for end-to-end upload/submission checks. This branch's automated delivery tests mock Resend, Sheets and BotID; they do not prove those external credentials or live integrations work.
+
+## Production readiness
+
+The November 13, 2026 release review found only `NEXT_PUBLIC_SITE_URL` configured in the production Vercel project. The existing contact and estimate pages intentionally show phone/text instructions until `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, and `CONTACT_RECIPIENT_EMAIL` are configured. Photo uploads also require `BLOB_READ_WRITE_TOKEN`. Do not treat a successful application deployment as activation of form delivery or lead-source reporting.
+
+Enable the forms with verified delivery credentials, add `SHEET_WEBHOOK_URL` and redeploy the updated Apps Script for Sheet attribution, and configure `NEXT_PUBLIC_GTM_ID` or `NEXT_PUBLIC_GA4_ID` plus the reporting mappings above. Then rebuild/redeploy and verify each integration with an authorized test mailbox and Sheet. The phone/text fallback remains available while these integrations are absent.
 
 ## Local validation
 

@@ -12,13 +12,20 @@ export function getLeadAttribution(): LeadAttribution {
   if (firstTouch && savedAt <= Date.now() && Date.now() - savedAt < MAX_AGE_MS) return firstTouch;
   try {
     const stored = JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) ?? "null");
+    const evidence = stored?.evidence;
     if (
       stored?.version === 1 &&
+      evidence &&
+      typeof evidence === "object" &&
+      !Array.isArray(evidence) &&
+      evidence.version === 1 &&
+      typeof evidence.landing_path === "string" &&
+      typeof evidence.referrer_host === "string" &&
       Number.isFinite(stored.savedAt) &&
       stored.savedAt <= Date.now() &&
       Date.now() - stored.savedAt < MAX_AGE_MS
     ) {
-      firstTouch = normalizeAttribution(stored.evidence, window.location.hostname);
+      firstTouch = normalizeAttribution(evidence, window.location.hostname);
       savedAt = stored.savedAt;
       return firstTouch;
     }
