@@ -63,6 +63,8 @@ export default function Footer() {
           <Link href="/audi-r8-collision-repair-sarasota" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Audi R8</Link>
           <Link href="/ferrari-collision-repair-sarasota" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Ferrari</Link>
           <Link href="/porsche-collision-repair-sarasota" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Porsche</Link>
+          <Link href="/paint-work" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Paint work</Link>
+          <Link href="/body-kits" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Body kits</Link>
           <span className="mt-2 eyebrow !text-[10px]">Explainers</span>
           <Link href="/explainers/adas" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">ADAS recalibration</Link>
           <Link href="/explainers/paint-match" className="link-underline flex md:block items-center min-h-[44px] md:min-h-0 hover:text-bone transition-colors">Paint match</Link>
