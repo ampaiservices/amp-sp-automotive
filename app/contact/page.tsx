@@ -14,9 +14,9 @@ import {
 } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact — Sarasota, FL",
   description:
-    "Talk to Serge directly. Send photos of the damage and get a callback within 24 hours.",
+    "Talk to Serge directly about collision repair in Sarasota, FL. Call, text, or send photos of the damage and get a callback within 24 hours.",
   alternates: { canonical: `${SITE_URL}/contact` },
 };
 
@@ -28,7 +28,7 @@ export default function ContactPage() {
     <section className="bg-ink px-6 md:px-10 py-32 pt-40">
       <div className="max-w-6xl mx-auto">
         {/* Heading + immediate CTAs span full width */}
-        <p className="eyebrow">Contact</p>
+        <p className="eyebrow">Contact · Sarasota, FL</p>
         <h1 className="mt-4 display-lg">Talk to Serge directly.</h1>
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <PhoneCTA size="lg" location="contact" />
