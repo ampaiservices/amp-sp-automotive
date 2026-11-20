@@ -8,11 +8,11 @@ import SplitText from "@/components/effects/SplitText";
 import RevealSection from "@/components/ui/RevealSection";
 import CarOrbit from "@/components/body-kits/CarOrbit";
 import { BUILDS } from "@/components/builds/builds-data";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_URL, SITE_NAME, BUSINESS_ID, CITY } from "@/lib/site";
 
-const TITLE = "Body kits — mounted, painted, finished to spec";
+const TITLE = "Body Kit Installation in Sarasota, FL";
 const DESCRIPTION =
-  "Forged-carbon widebody, factory paint match, no compromise on clearance or fitment. Body-kit installs at SP Automotive in Sarasota.";
+  "Body kit installation in Sarasota, FL. Widebody and aero kits mounted, paint-matched, and finished to spec, with fitment and clearance checked before delivery.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -96,11 +96,12 @@ function ServiceJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Body kit installation",
+    name: "Body Kit Installation",
     description: DESCRIPTION,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@id": BUSINESS_ID },
+    areaServed: { "@type": "City", name: CITY },
     serviceType: "Aftermarket aero installation and paint match",
-    areaServed: "Sarasota, FL",
+    url: `${SITE_URL}/body-kits`,
   };
   return (
     <script
@@ -134,7 +135,7 @@ export default function BodyKitsPage() {
         />
 
         <div className="relative z-10 mx-auto max-w-4xl">
-          <p className="eyebrow reveal-up">{"// Aftermarket aero"}</p>
+          <p className="eyebrow reveal-up">{"// Aftermarket aero · Sarasota, FL"}</p>
           <SplitText
             as="h1"
             className="mt-4 display-lg text-bone"
@@ -142,7 +143,7 @@ export default function BodyKitsPage() {
             mountDelayMs={200}
             staggerMs={28}
           >
-            Body kits.
+            Body kit installation, finished to spec.
           </SplitText>
           <p className="editorial mt-8 max-w-2xl text-bone/85 reveal-up">
             Forged carbon. Real install time. We seat the panels with no clearance
