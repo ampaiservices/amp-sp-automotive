@@ -7,7 +7,7 @@ import { SITE_URL, PHONE, PHONE_HREF } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Collision Repair Estimate in Sarasota, FL",
   description:
-    "Get a collision repair estimate in Sarasota, FL. Send 3 photos of the damage, your phone, and your car. Serge calls back within 24 hours.",
+    "Get a collision repair estimate in Sarasota, FL. Send 3 photos of the damage, your phone number, and your car. No write-up needed. Serge calls you back.",
   alternates: { canonical: `${SITE_URL}/estimate` },
 };
 

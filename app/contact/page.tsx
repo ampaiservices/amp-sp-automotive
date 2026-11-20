@@ -16,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "Contact — Sarasota, FL",
   description:
-    "Talk to Serge directly about collision repair in Sarasota, FL. Call, text, or send photos of the damage and get a callback within 24 hours.",
+    "Talk to Serge directly about collision repair in Sarasota, FL. Call, text, or send photos of the damage and Serge calls you back.",
   alternates: { canonical: `${SITE_URL}/contact` },
 };
 
