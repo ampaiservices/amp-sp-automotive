@@ -35,14 +35,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: `${SITE_NAME} — ${TAGLINE}`, template: `%s — ${SITE_NAME}` },
   description: `${TAGLINE} Factory-correct collision repair for Lamborghini, McLaren, and Audi R8. Sarasota, FL.`,
-  openGraph: {
-    title: `${SITE_NAME} — ${TAGLINE}`,
-    description: `${TAGLINE} Factory-correct collision repair for exotic cars. Sarasota, FL.`,
-    url: SITE_URL,
-    siteName: SITE_NAME,
-    type: "website",
-  },
-  twitter: { card: "summary_large_image", title: `${SITE_NAME} — ${TAGLINE}`, description: `${TAGLINE} Factory-correct collision repair for exotic cars.` },
+  // No title/description/url here on purpose: Next fills og: and twitter:
+  // title + description from each page's own metadata when these omit them.
+  // Hard-coding them made every page share the homepage's social card text.
+  openGraph: { siteName: SITE_NAME, type: "website" },
+  twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
 };
 

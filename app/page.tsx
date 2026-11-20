@@ -39,7 +39,8 @@ import FinalCTA from "@/components/cta/FinalCTA";
 // `globals.css`) carries the background for sections without their own
 // surface treatment.
 
-// Page-level metadata is partial — OG comes from the root layout. The title
+// Page-level metadata is partial — og:/twitter: title and description are
+// filled from the title and description below (see app/layout.tsx). The title
 // carries the service + city; it is absolute so the site name is appended
 // exactly once whatever the layout template does. Canonical is explicit: trailing
 // slash matches the sitemap.xml <loc> form so crawlers don't see two
