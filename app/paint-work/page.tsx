@@ -287,7 +287,7 @@ export default function PaintWorkPage() {
           as the visual centerpiece, copy below. */}
       <RevealSection className="bg-paper text-ink px-6 md:px-10 py-20 md:py-28 border-b border-ink/15">
         <div className="mx-auto max-w-5xl">
-          <div className="flex items-end justify-between gap-6">
+          <div className="flex flex-wrap md:flex-nowrap items-end justify-between gap-x-6 gap-y-3">
             <div>
               <p className="eyebrow text-ink/55 reveal-up">
                 {"// How it’s documented"}
@@ -296,7 +296,7 @@ export default function PaintWorkPage() {
                 Every coat measured.
               </h2>
             </div>
-            <span className="spec text-ink/55 tabular-nums whitespace-nowrap reveal-up">
+            <span className="spec text-ink/55 tabular-nums md:whitespace-nowrap reveal-up">
               5-coat stack · per-coat photo record
             </span>
           </div>

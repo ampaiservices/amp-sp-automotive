@@ -135,7 +135,7 @@ export default function BodyKitsPage() {
         />
 
         <div className="relative z-10 mx-auto max-w-4xl">
-          <p className="eyebrow reveal-up">{"// Aftermarket aero · Sarasota, FL"}</p>
+          <p className="eyebrow reveal-up">{"// Aftermarket aero · Sarasota,\u00a0FL"}</p>
           <SplitText
             as="h1"
             className="mt-4 display-lg text-bone"
@@ -178,7 +178,7 @@ export default function BodyKitsPage() {
           right-column build count. Each row reveals with a stagger. */}
       <RevealSection className="bg-ink px-6 md:px-10 py-20 md:py-28 border-b border-hairline">
         <div className="mx-auto max-w-4xl">
-          <div className="flex items-end justify-between gap-6">
+          <div className="flex flex-wrap md:flex-nowrap items-end justify-between gap-x-6 gap-y-3">
             <div>
               <p className="eyebrow text-graphite reveal-up">{"// What we install"}</p>
               <h2 className="mt-4 font-display uppercase tracking-[0.10em] text-bone leading-none text-3xl md:text-5xl reveal-up">
