@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import HeroVideo from "@/components/hero/HeroVideo";
 import TrustStrip from "@/components/home/TrustStrip";
 import MeetSerge from "@/components/home/MeetSerge";
@@ -39,12 +39,16 @@ import FinalCTA from "@/components/cta/FinalCTA";
 // `globals.css`) carries the background for sections without their own
 // surface treatment.
 
-// Page-level metadata is partial — title/description/OG all come from the
-// root layout. We only need to assert the canonical URL here so search
-// engines see an explicit <link rel="canonical"> on the homepage. Trailing
+// Page-level metadata is partial — og:/twitter: title and description are
+// filled from the title and description below (see app/layout.tsx). The title
+// carries the service + city; it is absolute so the site name is appended
+// exactly once whatever the layout template does. Canonical is explicit: trailing
 // slash matches the sitemap.xml <loc> form so crawlers don't see two
 // distinct canonical signatures.
 export const metadata: Metadata = {
+  title: { absolute: `Exotic Car Collision Repair in Sarasota, FL — ${SITE_NAME}` },
+  description:
+    "Exotic car collision repair in Sarasota, FL. Factory-correct body and paint work for Lamborghini, Ferrari, McLaren, Porsche, and Audi R8. Call or text photos.",
   alternates: { canonical: `${SITE_URL}/` },
 };
 

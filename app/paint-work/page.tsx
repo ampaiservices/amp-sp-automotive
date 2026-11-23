@@ -7,11 +7,11 @@ import SplitText from "@/components/effects/SplitText";
 import RevealSection from "@/components/ui/RevealSection";
 import ColorSwatchLibrary from "@/components/paint-work/ColorSwatchLibrary";
 import { COLORS } from "@/components/paint-work/colors-data";
-import { SITE_URL, SITE_NAME, BUSINESS_ID } from "@/lib/site";
+import { SITE_URL, SITE_NAME, BUSINESS_ID, CITY } from "@/lib/site";
 
-const TITLE = "Paint work — booth-mixed, measured, documented";
+const TITLE = "Exotic Car Paint Work in Sarasota, FL";
 const DESCRIPTION =
-  "Color-matched to factory variant, layered to factory depth, every coat measured. Tri-coats, full repaints, carbon refresh, and custom livery work at SP Automotive in Sarasota.";
+  "Exotic car paint work in Sarasota, FL. Factory color match, tri-coats, full repaints, color changes, and carbon clear refresh. Booth-mixed, every coat measured.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -51,11 +51,12 @@ function ServiceJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Exotic paint refinish and color match",
+    name: "Exotic Car Paint Work",
     description: DESCRIPTION,
     provider: { "@id": BUSINESS_ID },
+    areaServed: { "@type": "City", name: CITY },
     serviceType: "Automotive paint refinishing and color matching",
-    areaServed: "Sarasota, FL",
+    url: `${SITE_URL}/paint-work`,
   };
   return (
     <script
@@ -104,7 +105,7 @@ export default function PaintWorkPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-12 lg:gap-16 items-end">
             {/* Left column — eyebrow, headline, copy, spec row. */}
             <div>
-              <p className="eyebrow reveal-up">{"// Refinish work"}</p>
+              <p className="eyebrow reveal-up">{"// Refinish work · Sarasota, FL"}</p>
               <SplitText
                 as="h1"
                 className="mt-4 display-lg text-bone"
@@ -112,7 +113,7 @@ export default function PaintWorkPage() {
                 mountDelayMs={200}
                 staggerMs={28}
               >
-                Color, matched.
+                Exotic paint work. Color, matched.
               </SplitText>
               <p className="editorial mt-8 max-w-2xl text-bone/85 reveal-up">
                 Booth-mixed. Variant-card tested on a hidden panel from the car
@@ -286,7 +287,7 @@ export default function PaintWorkPage() {
           as the visual centerpiece, copy below. */}
       <RevealSection className="bg-paper text-ink px-6 md:px-10 py-20 md:py-28 border-b border-ink/15">
         <div className="mx-auto max-w-5xl">
-          <div className="flex items-end justify-between gap-6">
+          <div className="flex flex-wrap md:flex-nowrap items-end justify-between gap-x-6 gap-y-3">
             <div>
               <p className="eyebrow text-ink/55 reveal-up">
                 {"// How it’s documented"}
@@ -295,7 +296,7 @@ export default function PaintWorkPage() {
                 Every coat measured.
               </h2>
             </div>
-            <span className="spec text-ink/55 tabular-nums whitespace-nowrap reveal-up">
+            <span className="spec text-ink/55 tabular-nums md:whitespace-nowrap reveal-up">
               5-coat stack · per-coat photo record
             </span>
           </div>
